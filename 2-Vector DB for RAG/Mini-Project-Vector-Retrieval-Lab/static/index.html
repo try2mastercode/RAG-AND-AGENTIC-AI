@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vector Retrieval Lab</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="hero">
+  <h1>🔎 Vector Retrieval Lab</h1>
+  <p>A mini project built to demonstrate ChromaDB vector-database engineering — HNSW indexing,
+     metadata/full-text filters, and the retrieval half of RAG — running live against
+     <strong>Groq</strong> for the generation half.</p>
+  <a class="docs-link" href="/docs" target="_blank">View raw API docs (Swagger UI) →</a>
+</header>
+
+<main>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="card">
+    <h2>Why a vector DB sits in front of an LLM</h2>
+    <p class="lead">An LLM has no memory of your documents. RAG fixes that by searching a vector
+       database for relevant chunks <em>first</em>, then handing only those chunks to the model:</p>
+    <div class="flow">
+      <div class="flow-step">
+        <span class="flow-num">1</span>
+        <h3>Text → embedding</h3>
+        <p>Every document was embedded once with <code>all-MiniLM-L6-v2</code> and stored in an
+           HNSW graph index inside Chroma.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="flow-num">2</span>
+        <h3>Query → nearest neighbors</h3>
+        <p>Your question is embedded the same way, then Chroma walks the HNSW graph for the
+           closest vectors by cosine distance.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="flow-num">3</span>
+        <h3>Filters narrow the graph search</h3>
+        <p><code>where</code> (metadata) and <code>where_document</code> (substring) filters are
+           applied so only matching candidates are considered.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="flow-num">4</span>
+        <h3>Retrieved chunks → Groq</h3>
+        <p>The top-k passages are stuffed into a prompt so Groq's LLM answers using only what was
+           actually retrieved.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 1. COLLECTION INFO ============ -->
+  <section class="card">
+    <h2>1. The collection</h2>
+    <p class="lead">
+      A single <code>PersistentClient</code> collection, indexed with an explicit HNSW
+      configuration — this is the index every search below runs against.
+    </p>
+    <div class="result" id="info-result">
+      <div class="stage"><span class="stage-label">Documents</span><p id="info-count">loading…</p></div>
+      <div class="stage"><span class="stage-label">Topics</span><p id="info-topics"></p></div>
+      <div class="stage"><span class="stage-label">Sources</span><p id="info-sources"></p></div>
+      <div class="stage"><span class="stage-label">HNSW config</span><p id="info-hnsw"></p></div>
+    </div>
+  </section>
+
+  <!-- ============ 2. VECTOR SEARCH ============ -->
+  <section class="card">
+    <h2>2. Pure vector search</h2>
+    <p class="lead">
+      <code>collection.query()</code> — no filters, just cosine distance between your query's
+      embedding and every stored document.
+    </p>
+    <form id="search-form">
+      <label for="search-query">Query</label>
+      <input id="search-query" placeholder="e.g. a graph structure for fast lookup" value="a graph structure for fast lookup" required />
+      <label for="search-topk">Top K</label>
+      <input id="search-topk" type="number" min="1" max="8" value="3" style="max-width:70px" />
+      <button type="submit">Search</button>
+    </form>
+    <div class="result" id="search-result" hidden></div>
+    <details class="inspector" id="search-inspector" hidden>
+      <summary>Under the hood: request / response</summary>
+      <pre></pre>
+    </details>
+  </section>
+
+  <!-- ============ 3. FILTERED SEARCH ============ -->
+  <section class="card">
+    <h2>3. Metadata + full-text filtered search</h2>
+    <p class="lead">
+      Same vector search, narrowed with <code>where</code> (structured metadata) and
+      <code>where_document</code> (substring match on the raw text) — Chroma's equivalent of
+      SQL <code>WHERE</code> and <code>LIKE</code>, composed with the vector search.
+    </p>
+    <form id="filter-form">
+      <label for="filter-query">Query</label>
+      <input id="filter-query" placeholder="e.g. how does an index find similar text" value="how does an index find similar text" required />
+      <label for="filter-topic">Topic</label>
+      <select id="filter-topic"><option value="">any</option></select>
+      <label for="filter-source">Source</label>
+      <select id="filter-source"><option value="">any</option></select>
+      <label for="filter-contains">Must contain</label>
+      <input id="filter-contains" placeholder="e.g. graph" />
+      <button type="submit">Search with filters</button>
+    </form>
+    <div class="result" id="filter-result" hidden></div>
+    <details class="inspector" id="filter-inspector" hidden>
+      <summary>Under the hood: request / response</summary>
+      <pre></pre>
+    </details>
+  </section>
+
+  <!-- ============ 4. HNSW TUNING ============ -->
+  <section class="card">
+    <h2>4. HNSW <code>ef_search</code> tuning</h2>
+    <p class="lead">
+      <code>ef_search</code> controls how many graph neighbors Chroma explores per query — higher
+      means better recall at the cost of speed, and it can be changed live without rebuilding the
+      index. On a 12-document toy collection the result set won't visibly change; at millions of
+      vectors this is the knob that trades latency for accuracy.
+    </p>
+    <form id="ef-form">
+      <label for="ef-value">ef_search</label>
+      <input id="ef-value" type="number" min="1" max="500" value="10" style="max-width:90px" />
+      <button type="submit">Apply live</button>
+    </form>
+    <div class="result" id="ef-result" hidden>
+      <div class="stage"><span class="stage-label">Applied</span><p id="ef-applied"></p></div>
+    </div>
+  </section>
+
+  <!-- ============ 5. RAG ASK ============ -->
+  <section class="card">
+    <h2>5. Ask (retrieve, then generate)</h2>
+    <p class="lead">
+      The full RAG loop: your question runs through the same filtered vector search above, the
+      retrieved passages are shown <em>before</em> the answer, and Groq is instructed to answer
+      only from that retrieved context.
+    </p>
+    <form id="ask-form">
+      <label for="ask-question">Question</label>
+      <input id="ask-question" placeholder="e.g. why does bread dough rise" value="why does bread dough rise" required />
+      <button type="submit">Ask</button>
+    </form>
+    <div class="result" id="ask-result" hidden>
+      <div class="stage"><span class="stage-label">Answer</span><p id="ask-answer"></p></div>
+    </div>
+    <details class="inspector" id="ask-inspector" hidden>
+      <summary>Retrieved context that grounded this answer</summary>
+      <pre></pre>
+    </details>
+  </section>
+
+</main>
+
+<footer>
+  <p>Folder 2 mini project — ChromaDB collections, HNSW indexing, metadata/full-text filters, and
+     RAG retrieval, served over FastAPI, powered by Groq.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
