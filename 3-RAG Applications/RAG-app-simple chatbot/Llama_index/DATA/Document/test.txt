@@ -1,0 +1,19 @@
+Artificial Intelligence (AI) is the field of computer science focused on creating systems that can perform tasks that normally require human intelligence. These tasks include understanding language, recognizing images, making decisions, and solving problems.
+
+Machine Learning (ML) is a subset of AI. Instead of explicitly programming every rule, machine learning algorithms learn patterns from data. Common types of machine learning include supervised learning, unsupervised learning, and reinforcement learning.
+
+Supervised learning uses labeled data to train a model. For example, a model can be trained using images labeled as "cat" or "dog." After training, the model can predict the class of a new image.
+
+Unsupervised learning works with data that does not have predefined labels. Clustering is a common unsupervised learning technique. It groups similar data points together based on their characteristics.
+
+Deep Learning is a subset of machine learning that uses neural networks with multiple layers. Deep learning has been widely used for image recognition, speech recognition, natural language processing, and recommendation systems.
+
+Natural Language Processing (NLP) focuses on enabling computers to understand and process human language. Applications of NLP include translation, sentiment analysis, text classification, chatbots, and information extraction.
+
+Large Language Models (LLMs) are machine learning models trained on large amounts of text. They can generate text, answer questions, summarize documents, translate languages, and perform other language-related tasks.
+
+Computer Vision is an area of AI that allows computers to understand information from images and videos. Common computer vision applications include facial recognition, object detection, medical image analysis, and autonomous vehicles.
+
+A neural network consists of interconnected computational units called neurons. These neurons are organized into layers. During training, the model adjusts its parameters to reduce the difference between its predictions and the expected results.
+
+Training is the process of teaching a machine learning model using data. Inference is the process of using a trained model to make predictions on new data.
