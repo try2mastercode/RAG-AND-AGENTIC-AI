@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Retriever Showdown</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="hero">
+  <h1>⚔️ Retriever Showdown</h1>
+  <p>A mini project comparing five advanced retrieval strategies on the exact same question and
+     document collection — run live against <strong>Groq</strong> and a real vector store, with a
+     plain HTML/CSS/JS frontend wired straight to the FastAPI backend.</p>
+  <a class="docs-link" href="/docs" target="_blank">View raw API docs (Swagger UI) →</a>
+</header>
+
+<main>
+
+  <!-- ============ CORPUS ============ -->
+  <section class="card">
+    <h2>The document collection being searched</h2>
+    <p class="lead">All five strategies below search this same fixed set of six sentences —
+       that's what makes the comparison fair.</p>
+    <ul class="corpus-list" id="corpus-list"></ul>
+  </section>
+
+  <!-- ============ STRATEGY EXPLAINERS ============ -->
+  <section class="card">
+    <h2>How the five strategies differ</h2>
+    <div class="flow">
+      <div class="flow-step">
+        <h3>Baseline</h3>
+        <p>Plain dense vector similarity search. Embeds the question, returns the closest
+           matches. The default, nothing fancy.</p>
+      </div>
+      <div class="flow-step">
+        <h3>MMR</h3>
+        <p><em>Max Marginal Relevance</em> — still dense, but penalizes results that are too
+           similar to ones already picked, trading a little relevance for topic diversity.</p>
+      </div>
+      <div class="flow-step">
+        <h3>Multi-query</h3>
+        <p>The LLM rewrites your question 3 different ways, each is searched separately, and the
+           results are merged and de-duplicated — catches matches a single phrasing would miss.</p>
+      </div>
+      <div class="flow-step">
+        <h3>BM25</h3>
+        <p>Classic keyword/term-frequency ranking. No embeddings at all — purely how often and
+           how rarely your exact words appear in each document.</p>
+      </div>
+      <div class="flow-step">
+        <h3>Reciprocal Rank Fusion</h3>
+        <p>Runs the dense baseline <em>and</em> BM25 over the whole corpus, then fuses their two
+           rankings into one score: <code>1/(60+rank)</code> per retriever, summed.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ QUERY BAR ============ -->
+  <section class="card">
+    <h2>Run a question through all five</h2>
+    <form id="query-form">
+      <input id="question" placeholder="e.g. What generates electricity from moving air?" value="What generates electricity from moving air?" required />
+      <button type="submit">Run all five retrievers</button>
+    </form>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section class="results-grid" id="results-grid" hidden>
+
+    <div class="card result-card">
+      <h3>1. Baseline</h3>
+      <ol class="chunk-list" id="baseline-results"></ol>
+      <details class="inspector"><summary>Under the hood</summary><pre id="baseline-inspector"></pre></details>
+    </div>
+
+    <div class="card result-card">
+      <h3>2. MMR</h3>
+      <ol class="chunk-list" id="mmr-results"></ol>
+      <details class="inspector"><summary>Under the hood</summary><pre id="mmr-inspector"></pre></details>
+    </div>
+
+    <div class="card result-card">
+      <h3>3. Multi-query</h3>
+      <p class="stage-label">Generated rephrasings</p>
+      <ul class="query-list" id="multiquery-generated"></ul>
+      <p class="stage-label">Merged, de-duplicated results</p>
+      <ol class="chunk-list" id="multiquery-results"></ol>
+      <details class="inspector"><summary>Under the hood</summary><pre id="multiquery-inspector"></pre></details>
+    </div>
+
+    <div class="card result-card">
+      <h3>4. BM25 (keyword)</h3>
+      <ol class="chunk-list" id="bm25-results"></ol>
+      <details class="inspector"><summary>Under the hood</summary><pre id="bm25-inspector"></pre></details>
+    </div>
+
+    <div class="card result-card">
+      <h3>5. Reciprocal Rank Fusion</h3>
+      <ol class="chunk-list" id="rrf-results"></ol>
+      <details class="inspector"><summary>Under the hood</summary><pre id="rrf-inspector"></pre></details>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <p>Folder 4 mini project — advanced LangChain retrieval strategies served over FastAPI,
+     powered by Groq.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
