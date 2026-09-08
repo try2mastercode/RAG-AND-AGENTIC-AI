@@ -23,6 +23,8 @@ ENV/
 chroma_store/
 chroma_db/
 *.sqlite3
+*.db
+output_chart.png
 
 # IDE
 .idea/
