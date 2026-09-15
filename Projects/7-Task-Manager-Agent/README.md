@@ -1,4 +1,4 @@
-# Task Manager Agent — Mini Project
+# Task Manager Agent
 
 A small full-stack app proving out the agent patterns from this folder's
 `how-to-do.md` guide: a LangGraph tool-calling agent that adds, lists, updates,
@@ -24,8 +24,8 @@ generation (`qwen/qwen3.8-27b`, which supports tool calling on this account).
 From the repo root (needs the repo's `.env` with `GROQ_API_KEY` set):
 
 ```bash
-pip install -r "7-Agentic AI with LangChain and LangGraph/Mini-Project-Task-Manager-Agent/requirements.txt"
-python -m uvicorn app:app --reload --app-dir "7-Agentic AI with LangChain and LangGraph/Mini-Project-Task-Manager-Agent"
+pip install -r "Projects/7-Task-Manager-Agent/requirements.txt"
+python -m uvicorn app:app --reload --app-dir "Projects/7-Task-Manager-Agent"
 ```
 
 Then open http://localhost:8000 (or whichever port you pass with `--port`).
@@ -39,7 +39,7 @@ the page — the conversation is still there, because it lives in
 ## Test it without an API key
 
 ```bash
-cd "7-Agentic AI with LangChain and LangGraph/Mini-Project-Task-Manager-Agent"
+cd "Projects/7-Task-Manager-Agent"
 pytest -q
 ```
 

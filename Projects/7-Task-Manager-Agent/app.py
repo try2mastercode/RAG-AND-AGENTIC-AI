@@ -28,7 +28,7 @@ graph = build_graph(checkpointer=SqliteSaver(checkpoint_conn))
 
 app = FastAPI(
     title="Task Manager Agent",
-    description="Mini project: a LangGraph tool-calling agent with a checkpointed "
+    description="A LangGraph tool-calling agent with a checkpointed "
     "memory and a human-in-the-loop delete confirmation, backed by Groq.",
 )
 

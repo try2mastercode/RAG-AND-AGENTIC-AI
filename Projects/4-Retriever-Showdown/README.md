@@ -1,4 +1,4 @@
-# Retriever Showdown — Mini Project
+# Retriever Showdown
 
 A small full-stack app proving out the advanced retrieval strategies from this
 folder (`Max-Marginal-Releveance.py`, `LangChain-Adv-Retriever/Multi-Query-Retriever.py`,
@@ -15,7 +15,7 @@ the *same* question through five of them at once and showing how the results dif
 | Reciprocal Rank Fusion | Fuses the baseline + BM25 rankings into one score | `Llamaindex-Adv-Retriever/Fusion-Stratergies/Reciprocal-rank-fusion.py` |
 
 BM25 and RRF are reimplemented on the LangChain side (`langchain_community.retrievers.BM25Retriever`
-+ a manual reciprocal-rank-fusion formula) rather than pulling in LlamaIndex too, so the whole mini
++ a manual reciprocal-rank-fusion formula) rather than pulling in LlamaIndex too, so the whole
 project runs on one stack. All five strategies search the exact same fixed six-sentence corpus, which
 is what makes the side-by-side comparison meaningful — same documents, same question, different math.
 
@@ -27,8 +27,8 @@ different, and every panel has an "Under the hood" box showing the raw request/r
 From the repo root (needs the repo's `.env` with `GROQ_API_KEY` set):
 
 ```bash
-pip install -r "4-Advanced RAG Applications/Mini-Project-Retriever-Showdown/requirements.txt"
-python -m uvicorn app:app --reload --app-dir "4-Advanced RAG Applications/Mini-Project-Retriever-Showdown"
+pip install -r "Projects/4-Retriever-Showdown/requirements.txt"
+python -m uvicorn app:app --reload --app-dir "Projects/4-Retriever-Showdown"
 ```
 
 Then open http://localhost:8000 (or whichever port you pass with `--port`).

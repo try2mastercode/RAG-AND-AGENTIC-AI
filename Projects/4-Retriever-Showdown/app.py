@@ -8,7 +8,7 @@ from retrievers import CORPUS, run_baseline, run_bm25, run_mmr, run_multiquery, 
 
 app = FastAPI(
     title="Retriever Showdown",
-    description="Mini project: run one question through five advanced retrieval "
+    description="Run one question through five advanced retrieval "
     "strategies (baseline, MMR, multi-query, BM25, reciprocal rank fusion) and "
     "compare the results side by side.",
 )
