@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Task Manager Agent</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="hero">
+  <h1>🗂️ Task Manager Agent</h1>
+  <p>A mini project walking through a real <strong>LangGraph</strong> tool-calling agent —
+     checkpointed conversation memory and a human-in-the-loop delete confirmation — talking to
+     <strong>Groq</strong>, with a plain HTML/CSS/JS frontend wired straight to the FastAPI backend.</p>
+  <a class="docs-link" href="/docs" target="_blank">View raw API docs (Swagger UI) →</a>
+</header>
+
+<main>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="card">
+    <h2>How this agent actually works</h2>
+    <p class="lead">Every stage below is a real step in the graph, not a simplification:</p>
+    <div class="flow">
+      <div class="flow-step">
+        <span class="flow-num">1</span>
+        <h3>agent node</h3>
+        <p>Your message (plus the saved conversation) goes to the LLM, which either replies
+           directly or asks to call one or more <code>tools</code>.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="flow-num">2</span>
+        <h3>tools node</h3>
+        <p>A prebuilt <code>ToolNode</code> runs whichever of <code>add_task</code>,
+           <code>list_tasks</code>, <code>update_task</code>, <code>complete_task</code>,
+           <code>delete_task</code> the model asked for.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="flow-num">3</span>
+        <h3>loop</h3>
+        <p>Tool results go back to the <code>agent</code> node, which can call more tools or
+           stop — <code>tools_condition</code> decides which, until the model gives a plain answer.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="flow-num">4</span>
+        <h3>checkpoint</h3>
+        <p>A <code>SqliteSaver</code> saves the graph's state after every step, keyed by
+           <code>thread_id</code> — that's how it remembers you after a page refresh or restart.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="flow-num">5</span>
+        <h3>interrupt</h3>
+        <p><code>delete_task</code> calls <code>interrupt()</code> before touching the database,
+           which pauses the whole graph mid-run and hands control back to you.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="flow-num">6</span>
+        <h3>resume</h3>
+        <p>Your yes/no answer is sent back as <code>Command(resume=...)</code>, and the graph
+           continues <code>delete_task</code> from exactly where it paused.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CHAT + TASKS ============ -->
+  <section class="card layout-card">
+    <h2>Talk to the agent</h2>
+    <p class="lead">Try: <em>"add submit DBMS assignment due Friday, high priority"</em>,
+       <em>"what's still pending?"</em>, or <em>"delete the gym task"</em> to see the
+       confirmation step.</p>
+
+    <div class="layout">
+      <div class="chat">
+        <ol id="messages" class="messages" aria-live="polite">
+          <li class="empty" id="empty-state">
+            <p>Tell me what you need to get done. For example:</p>
+            <div class="suggestions">
+              <button type="button" class="chip">Add "submit assignment" due Friday, high priority</button>
+              <button type="button" class="chip">What's still pending?</button>
+              <button type="button" class="chip">Move the gym task to next Monday</button>
+            </div>
+          </li>
+        </ol>
+
+        <form id="composer" class="composer">
+          <label for="input" class="sr-only">Message</label>
+          <textarea id="input" rows="1" placeholder="Add or update a task…" autocomplete="off"></textarea>
+          <button id="send" type="submit">Send</button>
+        </form>
+      </div>
+
+      <aside class="tasks">
+        <div class="tasks-head">
+          <h3>Your tasks</h3>
+          <span id="task-count" class="count"></span>
+        </div>
+        <ul id="task-list" class="task-list"></ul>
+        <p id="tasks-empty" class="tasks-empty" hidden>No tasks yet. Ask the assistant to add one.</p>
+      </aside>
+    </div>
+
+    <details class="inspector" id="chat-inspector" hidden>
+      <summary>Under the hood: last request / response, and the raw interrupt payload</summary>
+      <pre></pre>
+    </details>
+  </section>
+
+  <div class="toolbar">
+    <button id="new-chat" class="ghost" type="button">New conversation</button>
+  </div>
+
+</main>
+
+<footer>
+  <p>Folder 7 mini project — a LangGraph tool-calling agent with checkpointed memory and
+     human-in-the-loop confirmation, served over FastAPI, powered by Groq.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
