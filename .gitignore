@@ -24,6 +24,8 @@ chroma_store/
 chroma_db/
 *.sqlite3
 *.db
+*.db-shm
+*.db-wal
 output_chart.png
 
 # IDE
