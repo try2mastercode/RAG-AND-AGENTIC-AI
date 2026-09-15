@@ -27,6 +27,7 @@ chroma_db/
 *.db-shm
 *.db-wal
 output_chart.png
+self_improvement_lessons.json
 
 # IDE
 .idea/
