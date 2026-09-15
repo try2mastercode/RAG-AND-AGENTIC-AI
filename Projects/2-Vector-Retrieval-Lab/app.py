@@ -11,7 +11,7 @@ STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
 
 app = FastAPI(
     title="Vector Retrieval Lab",
-    description="Mini project: ChromaDB collections, HNSW tuning, metadata/full-text "
+    description="ChromaDB collections, HNSW tuning, metadata/full-text "
     "filters, and RAG retrieval, backed by Groq.",
 )
 
