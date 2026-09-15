@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cuisine Chain Explorer</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="hero">
+  <h1>🍳 Cuisine Chain Explorer</h1>
+  <p>A project built to demonstrate LangChain composition patterns — running live against
+     <strong>Groq</strong> — with a plain HTML/CSS/JS frontend wired straight to the FastAPI backend.</p>
+  <a class="docs-link" href="/docs" target="_blank">View raw API docs (Swagger UI) →</a>
+</header>
+
+<main>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="card">
+    <h2>How a generative-AI API call actually works</h2>
+    <p class="lead">Every panel below sends a real HTTP request. Here's the round trip, every time:</p>
+    <div class="flow">
+      <div class="flow-step">
+        <span class="flow-num">1</span>
+        <h3>Browser builds a request</h3>
+        <p>JS collects your input, wraps it as JSON, and <code>fetch()</code>s a backend route like
+           <code>POST /api/sequential</code>.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="flow-num">2</span>
+        <h3>FastAPI parses &amp; validates</h3>
+        <p>A Pydantic model checks the JSON shape, then the route hands the data to a LangChain
+           "chain" function.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="flow-num">3</span>
+        <h3>Prompt template → Groq</h3>
+        <p>Your data fills a <code>PromptTemplate</code>, producing the actual text prompt sent
+           over HTTPS to Groq's LLM API.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="flow-num">4</span>
+        <h3>Response flows back</h3>
+        <p>Groq streams tokens back to the server, an output parser turns them into plain text,
+           FastAPI wraps it as JSON, and JS renders it here.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 1. SEQUENTIAL CHAIN ============ -->
+  <section class="card">
+    <h2>1. Sequential chain</h2>
+    <p class="lead">
+      <code>PromptTemplate | llm | StrOutputParser</code>, three times in a row — each stage's
+      output becomes the next stage's input: <strong>location → dish → recipe → cook time</strong>.
+    </p>
+    <form id="sequential-form">
+      <label for="location">Location</label>
+      <input id="location" name="location" placeholder="e.g. Japan" value="Japan" required />
+      <button type="submit">Run sequential chain</button>
+    </form>
+    <div class="result" id="sequential-result" hidden>
+      <div class="stage"><span class="stage-label">Dish</span><p id="seq-dish"></p></div>
+      <div class="stage"><span class="stage-label">Recipe</span><p id="seq-recipe"></p></div>
+      <div class="stage"><span class="stage-label">Cook time</span><p id="seq-time"></p></div>
+    </div>
+    <details class="inspector" id="sequential-inspector" hidden>
+      <summary>Under the hood: request / response</summary>
+      <pre></pre>
+    </details>
+  </section>
+
+  <!-- ============ 2. PARALLEL CHAIN ============ -->
+  <section class="card">
+    <h2>2. Parallel chain</h2>
+    <p class="lead">
+      <code>RunnableParallel</code> fires the "fact" and "joke" prompts in the <em>same</em> call —
+      both hit Groq concurrently instead of one after another, and come back as one dict.
+    </p>
+    <form id="parallel-form">
+      <label for="dish">Dish</label>
+      <input id="dish" name="dish" placeholder="e.g. Sushi" value="Sushi" required />
+      <button type="submit">Run parallel chain</button>
+    </form>
+    <div class="result" id="parallel-result" hidden>
+      <div class="stage"><span class="stage-label">Fact</span><p id="par-fact"></p></div>
+      <div class="stage"><span class="stage-label">Joke</span><p id="par-joke"></p></div>
+    </div>
+    <details class="inspector" id="parallel-inspector" hidden>
+      <summary>Under the hood: request / response</summary>
+      <pre></pre>
+    </details>
+  </section>
+
+  <!-- ============ 3. BRANCH CHAIN ============ -->
+  <section class="card">
+    <h2>3. Branch chain</h2>
+    <p class="lead">
+      <code>RunnableBranch</code> picks a different prompt <em>at runtime</em> based on a condition —
+      here, a checkbox decides between a one-sentence answer and a detailed one.
+    </p>
+    <form id="branch-form">
+      <label for="topic">Topic</label>
+      <input id="topic" name="topic" placeholder="e.g. why does bread rise" value="why does bread rise" required />
+      <label class="checkbox-label">
+        <input type="checkbox" id="detailed" name="detailed" /> Detailed explanation
+      </label>
+      <button type="submit">Run branch chain</button>
+    </form>
+    <div class="result" id="branch-result" hidden>
+      <div class="stage"><span class="stage-label">Explanation</span><p id="branch-explanation"></p></div>
+    </div>
+    <details class="inspector" id="branch-inspector" hidden>
+      <summary>Under the hood: request / response</summary>
+      <pre></pre>
+    </details>
+  </section>
+
+  <!-- ============ 4. CONVERSATIONAL MEMORY ============ -->
+  <section class="card">
+    <h2>4. Conversational memory</h2>
+    <p class="lead">
+      Each browser tab gets a <code>session_id</code>. The server keeps an
+      <code>InMemoryChatMessageHistory</code> per session and replays it into the prompt on every
+      turn — so the model actually remembers earlier messages in this chat.
+    </p>
+    <div class="chat-window" id="chat-window"></div>
+    <form id="chat-form">
+      <input id="chat-input" placeholder="Ask a follow-up question..." required />
+      <button type="submit">Send</button>
+    </form>
+    <details class="inspector" id="chat-inspector" hidden>
+      <summary>Under the hood: request / response</summary>
+      <pre></pre>
+    </details>
+  </section>
+
+</main>
+
+<footer>
+  <p>Folder 1 project — LangChain runnables (sequence, parallel, branch, memory) served over
+     FastAPI, powered by Groq.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
