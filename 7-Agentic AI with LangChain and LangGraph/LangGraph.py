@@ -11,8 +11,9 @@ from dotenv import load_dotenv
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_core.tools import tool
 from langchain_groq import ChatGroq
+from langchain.agents import create_agent
 from langgraph.graph import StateGraph, START, END, MessagesState
-from langgraph.prebuilt import ToolNode, tools_condition, create_react_agent
+from langgraph.prebuilt import ToolNode, tools_condition
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.types import interrupt, Command
 
@@ -237,13 +238,13 @@ def demo_memory():
 
 
 # ---------- SECTION 12: THE PREBUILT SHORTCUT ----------
-# create_react_agent builds the exact agent/tools loop from Section 10 for you in one line.
+# create_agent builds the exact agent/tools loop from Section 10 for you in one line.
 def demo_prebuilt_react_agent():
     if not HAVE_KEY:
         print("Skipped (no GROQ_API_KEY): demo_prebuilt_react_agent")
         return
     llm = ChatGroq(model=GROQ_MODEL, api_key=os.getenv("GROQ_API_KEY"), temperature=0)
-    app = create_react_agent(llm, TOOLS)
+    app = create_agent(llm, TOOLS)
     result = app.invoke({"messages": [HumanMessage("What is 7 times 6?")]})
     print(result["messages"][-1].content)
 
