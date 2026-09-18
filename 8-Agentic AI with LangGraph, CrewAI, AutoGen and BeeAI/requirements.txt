@@ -1,0 +1,15 @@
+# These three scripts need Python 3.11 or 3.12: crewai and beeai-framework's
+# dependency chains don't build on Python 3.14 yet (Rust/pydantic-core issues).
+python-dotenv
+groq
+
+# AutoGen-multi-agent-chat.py
+autogen-agentchat
+autogen-ext[openai]
+
+# BeeAI-ReAct-agent.py
+beeai-framework
+
+# CrewAI-research-write-crew.py
+crewai
+litellm
