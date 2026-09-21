@@ -1,0 +1,11 @@
+# Main app (runs on the default interpreter, e.g. global Python 3.14).
+fastapi
+uvicorn
+python-dotenv
+autogen-agentchat
+autogen-ext[openai]
+
+# crewai_runner.py and beeai_runner.py do NOT run on this interpreter — see
+# README.md. They each need their own Python 3.11 venv with, respectively:
+#   crewai_runner.py: crewai, litellm, python-dotenv
+#   beeai_runner.py:  beeai-framework, python-dotenv
