@@ -1,0 +1,12 @@
+mcp
+python-dotenv
+groq
+
+# for 09_langgraph_mcp_adapter_agent.py
+langchain-mcp-adapters
+langchain-groq
+langchain
+langgraph
+
+# for 07/08 streamable-http demo
+uvicorn
