@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+mcp
+groq
+python-dotenv
+pydantic
+
+# for running the tests
+pytest
+pytest-asyncio
+httpx
