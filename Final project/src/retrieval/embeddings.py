@@ -54,7 +54,10 @@ def embed_text_for_image_query(texts: list[str]) -> np.ndarray:
     collection (built from CLIP image embeddings) directly - this is what makes the
     text-vs-image fusion in M2L3 possible."""
     model, _ = get_clip_model()
-    tokens = clip.tokenize(texts).to(_device)
+    # truncate=True: CLIP's tokenizer has a hard 77-token limit and raises otherwise -
+    # callers here can pass long LLM-generated text (e.g. a full user profile), not
+    # just short queries.
+    tokens = clip.tokenize(texts, truncate=True).to(_device)
     with torch.no_grad():
         features = model.encode_text(tokens)
     vectors = features.cpu().numpy().astype(np.float32)

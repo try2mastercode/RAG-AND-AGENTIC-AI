@@ -21,3 +21,19 @@ def complete(prompt: str, model: str | None = None, temperature: float = 0.2, ma
         max_tokens=max_tokens,
     )
     return response.choices[0].message.content
+
+
+def complete_chat(
+    system: str, user: str, model: str | None = None, temperature: float = 0.3, max_tokens: int = 700
+) -> str:
+    client = get_client()
+    response = client.chat.completions.create(
+        model=model or config.GROQ_TEXT_MODEL,
+        messages=[
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ],
+        temperature=temperature,
+        max_tokens=max_tokens,
+    )
+    return response.choices[0].message.content

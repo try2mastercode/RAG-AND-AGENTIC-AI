@@ -2,19 +2,13 @@ import logging
 
 import config
 from retrieval.chroma_client import get_client
-from retrieval.embeddings import embed_text
+from retrieval.embeddings import embed_text, embed_text_for_image_query
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
 
 
-def retrieve_restaurants(query: str, k: int = 5, filters: dict | None = None) -> list[dict]:
-    client = get_client()
-    collection = client.get_collection(config.RESTAURANT_ARTICLES_COLLECTION)
-    query_embedding = embed_text([query])[0].tolist()
-
-    results = collection.query(query_embeddings=[query_embedding], n_results=k, where=filters)
-
+def _hits_from_query_result(results: dict) -> list[dict]:
     hits = []
     for idx in range(len(results["ids"][0])):
         distance = results["distances"][0][idx]
@@ -28,6 +22,24 @@ def retrieve_restaurants(query: str, k: int = 5, filters: dict | None = None) ->
             }
         )
     return hits
+
+
+def retrieve_restaurants(query: str, k: int = 5, filters: dict | None = None) -> list[dict]:
+    client = get_client()
+    collection = client.get_collection(config.RESTAURANT_ARTICLES_COLLECTION)
+    query_embedding = embed_text([query])[0].tolist()
+    results = collection.query(query_embeddings=[query_embedding], n_results=k, where=filters)
+    return _hits_from_query_result(results)
+
+
+def retrieve_recipes(query: str, k: int = 5, filters: dict | None = None) -> list[dict]:
+    """Queries food_images via CLIP's text encoder, so a plain text query can retrieve
+    recipes directly from the image collection (used by the RAG Retriever agent)."""
+    client = get_client()
+    collection = client.get_collection(config.FOOD_IMAGES_COLLECTION)
+    query_embedding = embed_text_for_image_query([query])[0].tolist()
+    results = collection.query(query_embeddings=[query_embedding], n_results=k, where=filters)
+    return _hits_from_query_result(results)
 
 
 def demo() -> list[dict]:

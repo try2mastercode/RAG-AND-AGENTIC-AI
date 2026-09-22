@@ -41,3 +41,21 @@ def test_retrieve_restaurants_computes_similarity_and_passes_filters(monkeypatch
     assert hits[1]["similarity"] == 0.6
     assert fake_collection.query_calls[0]["where"] == filters
     assert fake_collection.query_calls[0]["n_results"] == 2
+
+
+def test_retrieve_recipes_uses_clip_text_encoder(monkeypatch):
+    response = {
+        "ids": [["rc001"]],
+        "documents": [["Test Dish"]],
+        "metadatas": [[{"cuisine": "Test"}]],
+        "distances": [[0.2]],
+    }
+    fake_collection = FakeCollection(response)
+    monkeypatch.setattr(similarity, "get_client", lambda: FakeClient(fake_collection))
+    monkeypatch.setattr(similarity, "embed_text_for_image_query", lambda texts: np.zeros((1, 512), dtype=np.float32))
+
+    hits = similarity.retrieve_recipes("noodle soup", k=1)
+
+    assert len(hits) == 1
+    assert hits[0]["id"] == "rc001"
+    assert hits[0]["similarity"] == 0.8
