@@ -23,8 +23,8 @@ ENV/
 # Vector stores / local DBs (regenerable, binary, large)
 chroma_store/
 chroma_db/
-chroma_data/*
-!chroma_data/.gitkeep
+**/chroma_data/*
+!**/chroma_data/.gitkeep
 *.sqlite3
 *.db
 *.db-shm
