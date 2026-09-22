@@ -47,11 +47,20 @@ Running record of what's done and what's next, organized by the 6 build phases. 
 
 ---
 
-## Phase 2 — Retrieval layer (M2L1, M2L2, M2L3) — ⬜ NOT STARTED
+## Phase 2 — Retrieval layer (M2L1, M2L2, M2L3) — DONE (2026-09-22)
 
-- M2L1: Chroma collections `restaurant_articles` (MiniLM/384d) + `food_images` (CLIP ViT-B/32/512d), L2-normalized, persisted.
-- M2L2: similarity retrieval + metadata filtering, top-K, completion message.
-- M2L3: weighted late fusion across text/image scores, multiple weight configs, reranking, completion message.
+**What was built:**
+
+- `src/retrieval/chroma_client.py` - `PersistentClient` at `chroma_data/`, `reset_collection()` deletes+recreates by name before rebuild (no duplicate vectors on re-run), collections created with `hnsw:space: cosine` so distances are directly interpretable as `1 - cosine_similarity`.
+- `src/retrieval/embeddings.py` - `embed_text()` (MiniLM, `normalize_embeddings=True`), `embed_image()` (CLIP ViT-B/32, manual L2 normalize), `embed_text_for_image_query()` (CLIP text encoder, same joint space as the image embeddings - this is what makes M2L3's cross-modal fusion possible).
+- `src/retrieval/index_builder.py` (**M2L1**) - builds `restaurant_articles` (page_content = name+cuisine+location+summary, metadata = cuisine/location/price_range/rating/vibe/signature_dishes) and `food_images` (page_content = recipe name per spec, metadata = image_path/cuisine/source/caption). **Ran for real: 12 restaurants (384d), 10 images (512d), exact completion message `Multimodal Vector Index Construction COMPLETE` printed.**
+- `src/retrieval/similarity.py` (**M2L2**) - `retrieve_restaurants(query, k, filters)` using Chroma's `where` clause. Demo query filtered to `price_range in [$$$, $$$$]`, correctly returned only the 4 matching restaurants ranked by similarity. **Ran for real, exact completion message `Similarity Retrieval with Metadata Filtering COMPLETE` printed.**
+- `src/retrieval/fusion.py` (**M2L3**) - since restaurants and recipes are different entity types, fusion links them via the recipe's `source` field (restaurant name): text score from `restaurant_articles`, image score from `food_images` aggregated per source restaurant (best matching dish wins), both min-max normalized then weighted-summed. Tested 3 weight configs (text-only / 50-50 / image-only) - **ranking genuinely shifted (#1 moved from Spice Route to Olive & Thyme as image weight increased), proving the fusion isn't a no-op.** Completion message `Multimodal Similarity Fusion and Retrieval Ranking COMPLETE` (Q6 doesn't mandate exact wording, chosen for consistency with M2L1/M2L2).
+- Tests: `test_embeddings`, `test_index_builder`, `test_similarity`, `test_fusion` - 13 new tests (53 total in the repo), all mocking Chroma/embedding calls, plus real end-to-end runs of all three labs against the live index.
+
+**Bug caught and fixed during build (repo-wide, not just Phase 2):** root `.gitignore`'s `chroma_data/*` pattern was silently root-anchored (git treats any pattern containing a mid-string slash as relative to the `.gitignore`'s own directory, not matched at any depth), so it never actually matched `Final project/chroma_data/*` - only the unrelated `*.sqlite3` rule happened to catch the database file, leaving the vector-store's binary UUID subdirectories untracked. Fixed to `**/chroma_data/*` + `!**/chroma_data/.gitkeep`.
+
+**Verified:** `pytest tests/` -> 53/53 passed. All three labs run for real against the live persisted Chroma index. Screenshots (Q4-Q6) are your manual step from here.
 
 ---
 
