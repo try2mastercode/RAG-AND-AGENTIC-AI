@@ -16,7 +16,7 @@ The canonical, detailed specification lives in [`NOTE/IBM_AI_Engineering_Project
 
 ## Build decisions locked in for this implementation
 
-- LLM provider: **Groq only**, everywhere — including M4L2's sampling callback (lab text says "Anthropic API"; user chose to stay on one provider since it's not screenshot-visible).
+- LLM provider: **Groq only**, everywhere — including M4L2's sampling callback (lab text says "Anthropic API"; user chose to stay on one provider since it's not screenshot-visible). **Exception: M1L2 image captioning runs on a local BLIP model** (`transformers`, already installed) — Groq has no vision-capable model on this account (confirmed: `llama-3.2-*-vision-preview` decommissioned, `llama-4-scout`/`llama-4-maverick` inaccessible/404), so this is a forced exception, not a provider-consistency choice.
 - Python: 3.11 venv (`.venv/`), not the machine's global 3.14 — the ML stack here (torch/sentence-transformers/CLIP/chromadb) is heavier than other folders in this repo that hit 3.14 build issues.
 - M1L3 CLI backs up the JSON file before any destructive/modifying write (list → backup → apply → save) — a `Generative_AI_Course_AI_Knowledge_Base.md` suggestion, not an IBM requirement, but cheap and safe to include.
 - M2L2/M2L3 (original lab text missing): implemented against the *stated final requirements* (similarity + metadata filtering + top-K; weighted late fusion across configs + rerank), using reasonable default metadata fields and a standard fusion sequence — not fabricated as if they were literal IBM-specified names.

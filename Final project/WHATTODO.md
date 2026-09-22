@@ -24,9 +24,7 @@ Running record of what's done and what's next, organized by the 6 build phases. 
 - [x] Collection names (`restaurant_articles`, `food_images`) and embedding dims (384/512) match the IBM spec exactly.
 - [x] `pytest tests/` → 5/5 passed.
 
-**Open issue carried into Phase 1 (not a Phase 0 blocker):**
-
-- The Groq account's live model list has **no vision-capable model** (only `openai/gpt-oss-120b`, `openai/gpt-oss-20b`, `qwen/qwen3.8-27b`, `allam-2-7b`, `whisper-*`, `prompt-guard-*`, `orpheus-*` TTS — 11 models total, checked directly against the API). M1L2 (image captioning) needs a vision LLM. **Decision needed at the start of Phase 1**: re-check Groq's roster then (it may have changed), or use a different provider just for the vision-captioning step.
+**Resolved (2026-09-22):** Groq has no vision model on this account — confirmed twice: `models.list()` shows 11 models, none vision-capable, and direct calls to `llama-3.2-11b/90b-vision-preview` return "decommissioned," while `llama-4-scout`/`llama-4-maverick` 404 as inaccessible. **Decision:** M1L2 image captioning runs on a **local open-source BLIP model** (`transformers`, already installed as a `sentence-transformers` dependency — no new package, no new API key). Every other lab stays on Groq per the standing rule.
 
 ---
 
