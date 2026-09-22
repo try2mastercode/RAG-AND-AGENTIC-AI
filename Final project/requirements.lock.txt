@@ -38,6 +38,7 @@ httpcore==1.0.9
 httpcore2==2.13.0
 httptools==0.8.0
 httpx==0.28.1
+httpx-sse==0.4.3
 httpx2==2.13.0
 huggingface_hub==1.32.0
 idna==3.20
@@ -61,7 +62,7 @@ langgraph-sdk==0.4.5
 langsmith==0.14.0
 markdown-it-py==4.2.0
 MarkupSafe==3.0.3
-mcp==2.2.0
+mcp==1.30.0
 mcp-types==2.2.0
 mdurl==0.1.2
 mmh3==5.3.0
@@ -109,7 +110,7 @@ regex==2026.9.10
 requests==2.34.2
 requests-oauthlib==2.0.0
 requests-toolbelt==1.0.0
--e git+https://github.com/try2mastercode/IBM-RAG-Agentic-ai.git@f651247020f7e69d4a38d79a84e068086679495a#egg=restaurant_recommender_capstone&subdirectory=final project
+-e git+https://github.com/try2mastercode/IBM-RAG-Agentic-ai.git@8f146e7df1c657f868167b705bd54fcf90f176f1#egg=restaurant_recommender_capstone&subdirectory=final project
 rich==15.0.0
 rpds-py==2026.6.3
 safehttpx==0.1.7

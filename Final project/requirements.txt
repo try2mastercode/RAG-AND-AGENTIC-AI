@@ -20,7 +20,11 @@ langgraph
 gradio
 
 # Phase 4 — MCP server/client/host (M4L1-M4L3)
-mcp
+# Pinned <2: mcp 2.x renamed FastMCP to MCPServer and changed the API. The IBM lab
+# text explicitly names "FastMCP", and this repo's other proven-working MCP code
+# (9-Building AI Agents with MCP/) targets 1.x - pin to match rather than adapt to
+# a differently-named v2 surface.
+mcp<2
 
 # Testing
 pytest
