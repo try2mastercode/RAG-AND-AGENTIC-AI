@@ -1,0 +1,12 @@
+[project]
+name = "restaurant-recommender-capstone"
+version = "0.1.0"
+description = "IBM AI Engineering capstone: multimodal restaurant recommendation system"
+requires-python = ">=3.11"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

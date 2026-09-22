@@ -1,0 +1,56 @@
+Reading: Prepare to Submit Your Project
+Time estimate: 5 min
+
+Before submitting your work, ensure that you have completed all the hands-on labs for this project. This Capstone project is worth 60 points and includes 12 tasks that reference every lab covered in this course. Your final project will be AI-graded, providing prompt, precise, and constructive feedback on your performance. 
+
+Each question in the assignment will require you to attach screenshots, as instructed in the labs. This final assignment will help validate your understanding of the concepts and processes learned throughout the course. 
+
+Here is the point breakdown for the questions across the labs in the course: 
+
+Q1. Submit the screenshot titled “M1L1_structure_for_loop.jpg” (or .png) from Module 1’s “Structure Unstructured Restaurant Data with an LLM” lab. The screenshot should show the loop used to generate and validate JSON outputs for each restaurant using the LLM. (5 points) 
+
+Q2. Submit the screenshot titled “M1L2_caption_all_recipes.jpg” (or .png) from Module 1’s “Process Multimodal Data with LLMs” lab. The screenshot should show the for loop that calls the vision LLM to generate image captions and assigns the generated captions to each recipe entry in the JSON dataset. (5 points) 
+
+Q3. Submit the screenshot titled “M1L3_new_data_entry_process.jpg” (or .png) from Module 1’s “Build a Command-Line Data Management UI for Restaurant Data” lab. The screenshot should show the implementation of a function that uses an LLM to generate structured JSON from a restaurant paragraph, validates the output, and includes a loop to automatically repair invalid JSON responses. (5 points)
+
+Q4. Submit the screenshot titled “M2L1_multimodal_vector_index.jpg” (or .png) from Module 2’s “Construct a Multimodal Vector Index” lab. The screenshot must clearly show:  
+
+Creation of the restaurant_articles Chroma collection  
+
+Creation of the food_images Chroma collection  
+
+The final output message: “Multimodal Vector Index Construction COMPLETE”  (5 points)
+
+Q5. Submit the screenshot titled “M2L2_similarity_retrieval.jpg” (or .png) from Module 2’s “Similarity Retrieval with Metadata Filtering” lab. The screenshot must clearly show:  
+
+A retrieval query  
+
+Top-K retrieved restaurant results  
+
+The final output message “Similarity Retrieval with Metadata Filtering COMPLETE”  (5 points)
+
+Q6. Submit the screenshot titled “M2L3_multimodal_fusion_results.jpg” (or .png) from Module 2’s “Multimodal Similarity Fusion and Retrieval Ranking” lab. The screenshot should show the ranking results for different weight configurations, along with the final completion message. (5 points) 
+
+Q7. Submit the screenshot titled “M3L1_food_style_expert_goal.jpg” (or .png) from Module 3’s “Design Specialized Agents for a Recommendation System” Lab. The screenshot must show the Food Style Expert agent configuration, including the role, goal, and backstory fields. (5 points) 
+
+Q8. Submit the screenshot titled “M3L2_node_analyze_styles.jpg” (or .png) from Module 3’s “Implement and Test a Multi-Agent Recommendation System” lab. The screenshot must show the implementation of the node_analyze_styles function, specifically the construction of the user_message. (5 points) 
+
+Q9. Submit the screenshot titled “M3L3_preference_extraction_test.jpg” (or .png) from Module 3’s “Build a Chatbot Interface for the Recommendation System” lab. The screenshot must show the code implementation used to test the extract_preferences function. (5 points) 
+ 
+Q10. Submit the screenshot titled “M4L1_Configure_Tools_Data_MCP_Server.jpg” (or .png) from Module 4’s “Build an MCP Server” lab. The screenshot must show the successful execution of a search query returning a JSON-formatted result. (5 points) 
+
+Q11. Submit the screenshot titled M4L2_Build_Test_MCP_Client.jpg (or .png) from Module 4’s “Build an MCP Client” lab. The screenshot must clearly show:  
+
+The successful discovery and verification of the required operational tools 
+
+The identification of available resources (for example, culinary maps or data URIs) 
+
+The confirmation of configured roots, indicating that the server is pointed to the correct project directory.  (5 points)
+
+Q12. Submit the screenshot titled “M4L3_Design_LLM_MCP_Host.jpg” (or .png) from Module 4’s “Build a Full MCP Application” lab. The screenshot must clearly show:  
+
+The functional Chatbot interface, including a user query and a corresponding agent response  
+
+The navigation or input elements, such as the text entry field and quick-action suggestion buttons  
+
+The complete UI branding and layout, including the application title and the "Built with Gradio" footer  (5 points)

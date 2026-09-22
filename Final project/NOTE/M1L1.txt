@@ -1,0 +1,48 @@
+Assignment Overview: Structure Unstructured Restaurant Data with an LLM
+Estimated time: 5 minutes
+
+Introduction
+This lab is the first step toward building an AI-powered multimodal restaurant recommendation system. Modern recommendation systems require more than numerical ratings. To generate meaningful recommendations, they rely on a rich, structured understanding derived from unstructured data.
+
+In this lab, you will work with raw restaurant description text and apply Large Language Models (LLMs) to extract meaningful attributes and transform them into a structured, machine-readable format.
+
+This lab focuses on the foundational step of GenAI-powered data pipelines: converting unstructured text into structured JSON suitable for search, validation, and downstream recommendation tasks.
+
+Screenshot requirement for the Final Project
+During the course of the lab, you will be instructed to take a screenshot of the Python code, clearly showing your implementation and the output for a particular task. Name the screenshot M1L1_structure_for_loop.jpg. This screenshot will later serve as a component for the Final Project.
+
+Background
+The structured JSON dataset generated in this lab forms the data foundation of the AI-powered multimodal Restaurant Recommendation System. It will be used to construct vector indexes for retrieval, support agent-based reasoning workflows, and enable tool-based interactions in later modules. The accuracy, completeness, and consistency of this data directly influence the quality of recommendations and overall system performance.
+
+Why this lab matters
+You are learning how LLMs can be used as data transformation engines, not just text generators. By designing prompts, validating outputs, and repairing errors, you will gain hands-on experience building reliable, production-ready GenAI workflows that bridge unstructured data and structured knowledge bases.
+
+What you will do in this lab
+You will follow a step-by-step workflow to transform unstructured restaurant descriptions into a structured JSON knowledge file using LLMs. The sections that follow outline this workflow.
+
+Explore unstructured restaurant data
+To begin this process, you will load and inspect raw restaurant description text files. This step helps you understand the variability, noise, and semantic richness of real-world data, and identify key attributes such as cuisine type, pricing, ratings, and signature dishes.
+
+Design prompts for structured extraction
+Next, you will design a one-shot prompt template that instructs an LLM to extract predefined restaurant attributes and return them in a consistent JSON format. This step emphasizes clarity, structure, and output constraints to guide the model toward reliable data extraction.
+
+Validate outputs and implement auto-repair
+LLM outputs are not always perfectly formatted. Therefore, you will implement schema-based validation to detect malformed JSON. You will then introduce a specialized LLM-based repair mechanism that automatically corrects formatting errors, improving robustness and reliability.
+
+Build a structured restaurant knowledge file
+Finally, you will apply your pipeline across all restaurant descriptions using a loop to generate a complete JSON-formatted dataset. This structured file will serve as a reusable knowledge artifact for future labs and recommendation system development.
+
+Deliverables
+In this lab, you will complete the following deliverables:
+
+Design a one-shot prompt template to extract structured restaurant attributes from raw text
+
+Implement JSON schema validation to ensure output correctness
+
+Build an LLM-based auto-repair mechanism for malformed outputs
+
+Generate and save a fully structured JSON file containing all restaurant data
+
+Conclusion
+By the end of this lab, you will have transformed unstructured restaurant descriptions into a validated, structured knowledge base using LLMs. This workflow demonstrates how GenAI can be integrated into real-world data engineering pipelines to enable scalable, explainable, and intelligent applications.
+

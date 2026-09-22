@@ -1,6 +1,7 @@
 # Secrets
 .env
 .env.*
+!.env.example
 *.key
 
 # Python
@@ -22,6 +23,8 @@ ENV/
 # Vector stores / local DBs (regenerable, binary, large)
 chroma_store/
 chroma_db/
+chroma_data/*
+!chroma_data/.gitkeep
 *.sqlite3
 *.db
 *.db-shm

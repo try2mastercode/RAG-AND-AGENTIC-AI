@@ -1,0 +1,26 @@
+# Core / config
+python-dotenv
+groq
+pydantic>=2
+
+# Phase 2 — multimodal vector retrieval (M2L1-M2L3)
+chromadb
+sentence-transformers
+torch
+pillow
+ftfy
+regex
+numpy
+git+https://github.com/openai/CLIP.git
+
+# Phase 3 — agents, workflow, chatbot (M3L1-M3L3)
+langchain
+langchain-groq
+langgraph
+gradio
+
+# Phase 4 — MCP server/client/host (M4L1-M4L3)
+mcp
+
+# Testing
+pytest

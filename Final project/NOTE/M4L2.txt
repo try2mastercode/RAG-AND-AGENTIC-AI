@@ -1,0 +1,46 @@
+Assignment Overview: Build an MCP Client
+Estimated time: 5 minutes
+
+Introduction
+Earlier, you built an MCP server that wraps California restaurant data behind a standardized protocol. In this lab, you will build the other half of that pair — an MCP client that connects to the server, discovers what it exposes, and calls each of its tools. You will also implement two important MCP features — roots and sampling — that make the client a proper protocol participant rather than a thin caller. This is one step closer to building a full MCP application!
+
+Screenshot requirement for the Final Project
+During the course of the lab, you will be instructed to take a screenshot showing the successful discovery of tools, resources, and project roots in the terminal output. Name the file M4L2_Build_Test_MCP_Client.jpg.
+
+This screenshot will later serve as a component for the Final Project.
+
+Why this lab matters
+An MCP server is only useful when something connects to it. Understanding how the client side works gives you a complete picture of the protocol: how a session is established, how tools are discovered, and how responsibilities like filesystem access and LLM inference are negotiated between two sides. These patterns appear in every real MCP-based system, from simple scripts to production AI agents.
+
+What you will do in this lab
+You will build a client.py that launches the MCP server as a subprocess and communicates with it over stdio. The sections below outline this workflow.
+
+1. Connect to the server and verify the connection
+First, you will set up StdioServerParameters and open a ClientSession. Before calling any tools, you will run a verification step that uses list_tools() and list_resources() to confirm the server exposes exactly the tools and resources you expect.
+
+2. Implement roots and sampling callbacks
+Next, you will implement two client-side callbacks that give the server richer capabilities:
+
+Roots: A list_roots callback that declares which filesystem directories the client is willing to share with the server, scoping file access to the project directory.
+
+Sampling: A handle_sampling callback that receives LLM prompts delegated by the server, runs them through the Anthropic API, and returns the result.
+
+Both callbacks are registered when the ClientSession is opened, so the server can invoke them at any point during a session.
+
+3. Call all three server tools
+Finally, you will write three demo functions — one for each tool the server exposes — using a shared call_tool helper that handles session setup and JSON parsing. Each demo prints the tool's response so you can inspect what the server returned.
+
+Deliverables
+In this lab, you will complete the following deliverables:
+
+Connect to the MCP server using ClientSession over stdio and verify discovered tools and resources
+
+Implement a list_roots callback to declare the permitted filesystem directory
+
+Implement a handle_sampling callback to proxy LLM calls through the Anthropic API
+
+Call get_restaurant_info, recommend_by_vibe, and get_review via the MCP protocol and inspect their output
+
+Conclusion
+By the end of this lab, you will have a working MCP client that connects to the Connoisseur server, declares permitted filesystem paths, handles delegated LLM calls, and drives all three tools through the MCP protocol. Together, the server and client form a complete client–server MCP application — the foundation the next lab will build on to introduce intelligent tool selection and a full agent loop.
+

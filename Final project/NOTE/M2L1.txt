@@ -1,0 +1,200 @@
+Assignment Overview: Construct a Multimodal Vector Index
+Estimated time: 5 minutes
+
+Introduction
+After transforming unstructured restaurant descriptions into structured JSON, enriching them with multimodal insights, and building tools to manage that data, the next step is to make this data searchable.
+
+In this lab, you'll construct the multimodal retrieval backbone that will support all subsequent similarity search, filtering, and fusion workflows. Rather than performing retrieval immediately, this lab focuses on index construction — the engineering stage where heterogeneous data sources are transformed into structured, persistent vector representations.
+
+You will:
+
+Prepare structured restaurant JSON data
+
+Process a synthetic food image dataset
+
+Initialize modality-specific embedding models
+
+Construct retrieval-ready document objects
+
+Build and persist two Chroma vector collections
+
+This lab establishes the foundational infrastructure required for production-grade multimodal retrieval.
+
+Screenshot requirement for the Final Project
+During the course of the lab, you will be instructed to take a screenshot of the final code cell and its output. Name the file M2L1_multimodal_vector_index.jpg.
+
+This screenshot will later serve as a component for the Final Project.
+
+Why this lab matters
+Retrieval systems depend on well-constructed vector indexes. In this lab, you build the infrastructure that makes structured text and image data searchable through embeddings. This enables fast and scalable similarity search, which is essential for modern retrieval-augmented generation and recommendation systems.
+
+From raw data to retrieval infrastructure
+Modern Retrieval-Augmented Generation (RAG) systems rely on dense embeddings stored inside vector databases. However, raw data cannot be indexed directly.
+
+A structured transformation pipeline is required:
+
+Raw JSON / Images
+→ Structured Document Objects
+→ Dense Embeddings
+→ Persistent Vector Store
+
+This lab implements the full pipeline. The goal is not to retrieve yet, but to engineer the substrate that retrieval depends on.
+
+Design pattern: Modality-specific indexing
+This lab follows a parallel indexing pattern:
+
+1. Text index
+Model: Sentence-Transformers (all-MiniLM-L6-v2)
+
+Dimension: 384
+
+Domain: Restaurant article representations
+
+2. Image index
+Model: CLIP (ViT-B/32)
+
+Dimension: 512
+
+Domain: Food recipe images
+
+Each modality is indexed independently into its own Chroma collection:
+
+restaurant_articles
+
+food_images
+
+This separation reflects a key design principle:
+
+Different modalities require specialized encoders and independent vector spaces. The lab intentionally avoids premature fusion. Cross-modal comparison will be handled later.
+Document construction strategy
+Vector databases operate on structured documents. Each document contains:
+
+page_content (human-readable retrieval text)
+
+Unique doc_id
+
+Metadata fields (cuisine, location, source, etc.)
+
+For restaurant articles, page_content is constructed from:
+
+Restaurant name
+
+Cuisine
+
+Location
+
+For images, page_content stores the recipe name, while metadata includes:
+
+image_path
+
+cuisine
+
+source
+
+This design enables:
+
+Semantic similarity search (via embeddings)
+
+Structured filtering (via metadata)
+
+Result interpretability
+
+Document abstraction is central to the lab architecture.
+
+Embedding initialization and normalization
+The lab initializes two embedding pipelines:
+
+1. Text embeddings
+384-dimensional MiniLM vectors
+
+L2 normalization applied
+
+2. Image embeddings
+512-dimensional CLIP vectors
+
+L2 normalization applied manually
+
+Normalization ensures cosine similarity behaves consistently in later retrieval steps.
+
+This alignment is critical. Retrieval performance depends on embedding-query compatibility.
+
+Persistent index construction
+After generating embeddings, the lab:
+
+Creates Chroma collections
+
+Upserts embeddings
+
+Stores metadata alongside vectors
+
+Persists the database directory
+
+Persistence enables:
+
+Cross-session reuse
+
+Efficient experimentation
+
+Clean separation between indexing and querying
+
+The explicit directory reset before rebuilding prevents duplicate vector entries — an important experimental control step.
+
+Architectural perspective
+This lab establishes the following architectural properties:
+
+Modularity: Indexing is independent of querying.
+
+Specialization: Each modality has its own encoder.
+
+Abstraction: Documents unify text, metadata, and vectors.
+
+Persistence: Retrieval infrastructure is durable.
+
+These design choices mirror real-world production retrieval systems.
+
+What you will do in the lab
+In the lab, you will:
+
+Validate environment dependencies
+
+Download and extract the image dataset
+
+Load structured restaurant and recipe JSON files
+
+Initialize embedding models
+
+Construct document objects
+
+Generate embeddings
+
+Build and persist vector collections
+
+At completion, you will have a fully functional multimodal vector database.
+
+Key considerations
+As you build the retrieval backbone, consider:
+
+Why are text and image encoders separated
+
+Why metadata must be preserved
+
+Why persistence is essential
+
+Why indexing and retrieval are decoupled
+
+These are not incidental choices — they are structural design decisions.
+
+Summary
+In this overview reading, you learned that:
+
+Multimodal retrieval requires structured document construction
+
+Text and image data must be encoded with specialized models
+
+Metadata enables structured filtering later
+
+Persistent vector stores form the foundation of RAG systems
+
+Indexing precedes and enables retrieval
+
+You are now ready to implement the multimodal vector index construction workflow.
