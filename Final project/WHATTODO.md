@@ -109,6 +109,22 @@ Running record of what's done and what's next, organized by the 6 build phases. 
 
 ---
 
+## Final pre-submission audit (2026-09-22) — PASSED, ready for screenshots
+
+Followed spec section 24's procedure: fresh full test suite, then re-ran all 12 labs for real, in dependency order, from the actual committed state (not just trusting earlier phase runs).
+
+- **Environment:** Python 3.11.9, all deps import clean, `mcp==1.30.0` (still pinned correctly), `GROQ_API_KEY` set.
+- **Tests:** `pytest tests/` -> **101/101 passed**, twice (before and after the re-runs).
+- **M1L1-M1L3:** re-ran for real - 12/12 restaurants structured (0 failures), 10/10 recipes captioned, CLI list confirmed against the fresh data.
+- **M2L1-M2L3:** vector index rebuilt from the fresh M1 output (12 restaurants/384d, 10 images/512d), similarity+filter demo and fusion demo both re-ran with correct exact completion messages and genuinely shifting rankings.
+- **M3L1-M3L3:** personas re-printed, full LangGraph workflow re-ran for all 4 personas against live Groq (graceful degradation under real rate limits confirmed again, same as Phase 3 - not a regression), `extract_preferences` re-tested live.
+- **M4L1-M4L3:** MCP client re-run against the real server (tool/resource discovery, configured roots, all 3 tools), and the M4L3 ReAct loop re-checked directly (real tool call, correctly grounded answer).
+- **Data refresh:** `data/structured/restaurants.json` changed slightly (ordinary LLM non-determinism - reordered lists, reworded summaries - not a functional change) and was committed as the current audit-verified snapshot. `recipes.json` was unchanged (BLIP captioning is deterministic).
+
+**No regressions found.** Nothing needed fixing this pass - the build is stable and ready for you to run each script/app yourself and capture the 12 required screenshots per `NOTE/Submission instruction.txt`.
+
+---
+
 ## Phase 5 — Screenshot capture + submission audit — ⬜ NOT STARTED
 
 - Run every phase end-to-end, capture all 12 exact-named screenshots into `screenshots/`, cross-check each against `NOTE/Submission instruction.txt`.
