@@ -8,9 +8,12 @@ load_dotenv(PROJECT_ROOT / ".env")
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
-# Verified against the live Groq model list at the start of Phase 1, not guessed from training data.
-GROQ_TEXT_MODEL = os.getenv("GROQ_TEXT_MODEL", "")
-GROQ_VISION_MODEL = os.getenv("GROQ_VISION_MODEL", "")
+# Verified against the live Groq model list at the start of Phase 1 (2026-09-22): active on this account.
+GROQ_TEXT_MODEL = os.getenv("GROQ_TEXT_MODEL", "openai/gpt-oss-120b")
+
+# Groq has no vision-capable model on this account (llama-3.2-vision decommissioned,
+# llama-4-scout/maverick inaccessible) - M1L2 captioning runs on a local BLIP model instead.
+BLIP_MODEL_NAME = os.getenv("BLIP_MODEL_NAME", "Salesforce/blip-image-captioning-base")
 
 DATA_DIR = PROJECT_ROOT / "data"
 RAW_DIR = DATA_DIR / "raw"
@@ -29,6 +32,11 @@ IMAGE_EMBEDDING_DIM = 512
 
 RESTAURANT_ARTICLES_COLLECTION = "restaurant_articles"
 FOOD_IMAGES_COLLECTION = "food_images"
+
+CALIFORNIA_CULINARY_MAP_FILE = RAW_DIR / "california_culinary_map.txt"
+STRUCTURED_RESTAURANTS_FILE = STRUCTURED_DIR / "restaurants.json"
+RECIPES_FILE = RECIPES_DIR / "recipes.json"
+USERS_FILE = REVIEWS_DIR / "users.json"
 
 
 def require_groq_key() -> str:
