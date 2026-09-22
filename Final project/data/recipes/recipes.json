@@ -1,0 +1,170 @@
+[
+  {
+    "id": "rc001",
+    "name": "Vietnamese Beef Pho",
+    "cuisine": "Vietnamese",
+    "ingredients": [
+      "beef bones",
+      "rice noodles",
+      "star anise",
+      "charred onion",
+      "thai basil",
+      "bean sprouts"
+    ],
+    "instructions": "Simmer bones with charred aromatics for at least 6 hours, strain, then ladle over rice noodles and thinly sliced beef. Serve with basil, sprouts, and lime.",
+    "source": "Green Papaya",
+    "image_path": "D:\\CODE\\RAG and Agentic AI\\Final project\\data\\images\\rc001.png",
+    "caption": "a green circle with a white background and a green dot. Reviewed at Green Papaya: \"Huge bowl of pho for under $15, perfect after class.\"."
+  },
+  {
+    "id": "rc002",
+    "name": "Birria Tacos",
+    "cuisine": "Mexican",
+    "ingredients": [
+      "chuck roast",
+      "dried guajillo chiles",
+      "corn tortillas",
+      "onion",
+      "cilantro",
+      "queso oaxaca"
+    ],
+    "instructions": "Braise beef with toasted chiles until falling apart, shred, and pan-fry tortillas dipped in the braising fat. Serve with a cup of consomme for dipping.",
+    "source": "El Mercado Cantina",
+    "image_path": "D:\\CODE\\RAG and Agentic AI\\Final project\\data\\images\\rc002.png",
+    "caption": "a circle with circles in the middle and bottom. Reviewed at El Mercado Cantina: \"Best tacos for the price, full period.\"."
+  },
+  {
+    "id": "rc003",
+    "name": "Spicy Tuna Roll",
+    "cuisine": "Japanese",
+    "ingredients": [
+      "sushi rice",
+      "ahi tuna",
+      "sriracha mayo",
+      "nori",
+      "cucumber",
+      "scallion"
+    ],
+    "instructions": "Dice tuna and mix with sriracha mayo, roll tightly with rice and cucumber in nori, slice and top with scallion.",
+    "source": "Bluefin & Co.",
+    "image_path": "D:\\CODE\\RAG and Agentic AI\\Final project\\data\\images\\rc003.png",
+    "caption": "a pink circle with a black dot on it. Reviewed at Bluefin & Co.: \"Best omakase I've had outside Tokyo, no notes.\"."
+  },
+  {
+    "id": "rc004",
+    "name": "Smoked Brisket Plate",
+    "cuisine": "American BBQ",
+    "ingredients": [
+      "beef brisket",
+      "black pepper",
+      "kosher salt",
+      "smoked mac and cheese",
+      "pickles"
+    ],
+    "instructions": "Rub brisket with salt and pepper, smoke low and slow over post oak for around 12 hours, rest, then slice against the grain.",
+    "source": "Smoke & Char",
+    "image_path": "D:\\CODE\\RAG and Agentic AI\\Final project\\data\\images\\rc004.png",
+    "caption": "a circle with a brown and black dot on it"
+  },
+  {
+    "id": "rc005",
+    "name": "Chicken Tikka Masala",
+    "cuisine": "Indian",
+    "ingredients": [
+      "chicken thigh",
+      "yogurt",
+      "garam masala",
+      "tomato puree",
+      "cream",
+      "garlic naan"
+    ],
+    "instructions": "Marinate chicken in yogurt and spices, char under high heat, then simmer in a tomato-cream sauce until thick. Serve with naan.",
+    "source": "Spice Route",
+    "image_path": "D:\\CODE\\RAG and Agentic AI\\Final project\\data\\images\\rc005.png",
+    "caption": "a plate with a bunch of brown circles. Reviewed at Spice Route: \"They remade a dish without cashews without any hassle.\"."
+  },
+  {
+    "id": "rc006",
+    "name": "Greek Lemon Chicken with Orzo",
+    "cuisine": "Mediterranean",
+    "ingredients": [
+      "chicken thigh",
+      "orzo",
+      "lemon",
+      "oregano",
+      "feta",
+      "kalamata olives"
+    ],
+    "instructions": "Roast chicken with lemon and oregano, cook orzo in the pan drippings, and finish with crumbled feta and olives.",
+    "source": "Olive & Thyme",
+    "image_path": "D:\\CODE\\RAG and Agentic AI\\Final project\\data\\images\\rc006.png",
+    "caption": "a white plate with a yellow and black circle. Reviewed at Olive & Thyme: \"Loved the mezze spread, easy to keep it plant-heavy here.\"."
+  },
+  {
+    "id": "rc007",
+    "name": "Korean Bulgogi Bowl",
+    "cuisine": "Korean",
+    "ingredients": [
+      "ribeye",
+      "soy sauce",
+      "pear puree",
+      "sesame oil",
+      "steamed rice",
+      "kimchi"
+    ],
+    "instructions": "Marinate thin-sliced ribeye in soy, pear, and sesame oil, sear quickly over high heat, and serve over rice with kimchi.",
+    "source": "Kimchi Garden",
+    "image_path": "D:\\CODE\\RAG and Agentic AI\\Final project\\data\\images\\rc007.png",
+    "caption": "a white plate with three circles on it. Reviewed at Kimchi Garden: \"Kids loved cooking at the table, staff was careful about the nut allergy.\"."
+  },
+  {
+    "id": "rc008",
+    "name": "Roasted Root Vegetable Harvest Bowl",
+    "cuisine": "American Farm-to-Table",
+    "ingredients": [
+      "beets",
+      "carrots",
+      "goat cheese",
+      "arugula",
+      "walnuts",
+      "sherry vinaigrette"
+    ],
+    "instructions": "Roast beets and carrots until caramelized, toss with arugula and a sherry vinaigrette, and finish with goat cheese and walnuts.",
+    "source": "Harvest Table",
+    "image_path": "D:\\CODE\\RAG and Agentic AI\\Final project\\data\\images\\rc008.png",
+    "caption": "a purple circle with black dots on it"
+  },
+  {
+    "id": "rc009",
+    "name": "Ethiopian Misir Wot with Injera",
+    "cuisine": "Ethiopian",
+    "ingredients": [
+      "red lentils",
+      "berbere spice",
+      "onion",
+      "garlic",
+      "injera flatbread"
+    ],
+    "instructions": "Slow-cook lentils with berbere, onion, and garlic until thick and deeply spiced. Serve scooped up with torn injera.",
+    "source": "Tagine House",
+    "image_path": "D:\\CODE\\RAG and Agentic AI\\Final project\\data\\images\\rc009.png",
+    "caption": "a circle with circles and a circle with circles. Reviewed at Tagine House: \"Never had Ethiopian and Moroccan on one table, incredible combo.\"."
+  },
+  {
+    "id": "rc010",
+    "name": "Grilled Peach and Burrata Salad",
+    "cuisine": "Californian",
+    "ingredients": [
+      "peaches",
+      "burrata",
+      "arugula",
+      "basil",
+      "balsamic glaze",
+      "toasted almonds"
+    ],
+    "instructions": "Grill peach halves until charred, arrange over arugula with torn burrata, and finish with basil, almonds, and balsamic glaze.",
+    "source": "Desert Bloom Cafe",
+    "image_path": "D:\\CODE\\RAG and Agentic AI\\Final project\\data\\images\\rc010.png",
+    "caption": "a white circle with a brown bear on it"
+  }
+]

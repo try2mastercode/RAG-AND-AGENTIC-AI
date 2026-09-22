@@ -1,0 +1,94 @@
+[
+  {
+    "id": "user_001",
+    "name": "Maya Chen",
+    "persona": "health-conscious",
+    "visit_history": [
+      {
+        "restaurant_name": "Olive & Thyme",
+        "date": "2026-06-02",
+        "rating": 4.5,
+        "comment": "Loved the mezze spread, easy to keep it plant-heavy here."
+      },
+      {
+        "restaurant_name": "The Vegan Anchor",
+        "date": "2026-07-14",
+        "rating": 5.0,
+        "comment": "The heart-of-palm crab cakes actually fooled me."
+      }
+    ],
+    "social_posts": [
+      "trying to eat more plant-based this year, always hunting for good vegetarian spots",
+      "gluten-free and loving it - Mediterranean food makes this so easy"
+    ]
+  },
+  {
+    "id": "user_002",
+    "name": "Jordan Alvarez",
+    "persona": "adventurous foodie",
+    "visit_history": [
+      {
+        "restaurant_name": "Bluefin & Co.",
+        "date": "2026-05-20",
+        "rating": 5.0,
+        "comment": "Best omakase I've had outside Tokyo, no notes."
+      },
+      {
+        "restaurant_name": "Tagine House",
+        "date": "2026-08-01",
+        "rating": 4.5,
+        "comment": "Never had Ethiopian and Moroccan on one table, incredible combo."
+      }
+    ],
+    "social_posts": [
+      "always down to try a cuisine I've never had before",
+      "fine dining tasting menus are basically my hobby at this point"
+    ]
+  },
+  {
+    "id": "user_003",
+    "name": "Sam Okafor",
+    "persona": "budget-conscious student",
+    "visit_history": [
+      {
+        "restaurant_name": "El Mercado Cantina",
+        "date": "2026-06-10",
+        "rating": 4.7,
+        "comment": "Best tacos for the price, full period."
+      },
+      {
+        "restaurant_name": "Green Papaya",
+        "date": "2026-07-02",
+        "rating": 4.3,
+        "comment": "Huge bowl of pho for under $15, perfect after class."
+      }
+    ],
+    "social_posts": [
+      "grad student budget so anything under $15 a plate is a win",
+      "comfort food > fancy food, fight me"
+    ]
+  },
+  {
+    "id": "user_004",
+    "name": "The Kim Family",
+    "persona": "family with dietary restrictions",
+    "visit_history": [
+      {
+        "restaurant_name": "Kimchi Garden",
+        "date": "2026-06-25",
+        "rating": 4.2,
+        "comment": "Kids loved cooking at the table, staff was careful about the nut allergy."
+      },
+      {
+        "restaurant_name": "Spice Route",
+        "date": "2026-07-20",
+        "rating": 4.0,
+        "comment": "They remade a dish without cashews without any hassle."
+      }
+    ],
+    "social_posts": [
+      "one of us has a severe nut allergy so we always call ahead",
+      "looking for casual, kid-friendly spots that take allergies seriously"
+    ]
+  }
+]

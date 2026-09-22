@@ -1,0 +1,227 @@
+[
+  {
+    "id": "r001",
+    "name": "Green Papaya",
+    "cuisine": "Vietnamese",
+    "location": "San Jose",
+    "price_range": "$$",
+    "rating": 4.3,
+    "signature_dishes": [
+      "pho",
+      "shaking beef",
+      "summer rolls"
+    ],
+    "vibe": [
+      "casual",
+      "lively"
+    ],
+    "summary": "A bustling Little Saigon spot known for its 18\u2011hour\u2011simmered pho, shaking beef, and fresh summer rolls, offering casual dining at affordable prices."
+  },
+  {
+    "id": "r002",
+    "name": "El Mercado Cantina",
+    "cuisine": "Mexican",
+    "location": "Los Angeles",
+    "price_range": "$",
+    "rating": 4.7,
+    "signature_dishes": [
+      "al pastor",
+      "birria tacos",
+      "michelada"
+    ],
+    "vibe": [
+      "lively",
+      "casual",
+      "bright"
+    ],
+    "summary": "A lively East LA cantina serving authentic Mexico City street food like al pastor and birria tacos, with cheap micheladas and a bright, upbeat atmosphere."
+  },
+  {
+    "id": "r003",
+    "name": "Bluefin & Co.",
+    "cuisine": "Japanese",
+    "location": "San Diego",
+    "price_range": "$$$$",
+    "rating": 4.7,
+    "signature_dishes": [
+      "uni",
+      "fatty tuna",
+      "tamago"
+    ],
+    "vibe": [
+      "quiet",
+      "minimalist",
+      "special-occasion"
+    ],
+    "summary": "An intimate eight-seat omakase bar in San Diego offering chef\u2011curated uni, fatty tuna, and dessert\u2011like tamago for a premium, special\u2011occasion experience."
+  },
+  {
+    "id": "r004",
+    "name": "Smoke & Char",
+    "cuisine": "Barbecue",
+    "location": "Oakland",
+    "price_range": "$$",
+    "rating": 4.3,
+    "signature_dishes": [
+      "twelve-hour smoked brisket",
+      "smoked mac and cheese"
+    ],
+    "vibe": [
+      "loud",
+      "casual",
+      "messy",
+      "outdoor"
+    ],
+    "summary": "A noisy, outdoor BBQ joint in Oakland serving twelve\u2011hour smoked brisket and smoky mac\u202fand\u202fcheese at affordable prices."
+  },
+  {
+    "id": "r005",
+    "name": "Spice Route",
+    "cuisine": "Indian",
+    "location": "Berkeley",
+    "price_range": "$$",
+    "rating": 4.0,
+    "signature_dishes": [
+      "chicken tikka masala",
+      "lamb vindaloo",
+      "garlic naan"
+    ],
+    "vibe": [
+      "casual",
+      "cozy",
+      "authentic"
+    ],
+    "summary": "A cozy Berkeley spot offering authentic Indian flavors like lamb vindaloo and garlic naan, praised for its steady four\u2011star quality and warm ambiance."
+  },
+  {
+    "id": "r006",
+    "name": "Olive & Thyme",
+    "cuisine": "Mediterranean",
+    "location": "Santa Barbara",
+    "price_range": "$$$$",
+    "rating": 4.7,
+    "signature_dishes": [
+      "grilled branzino",
+      "lamb kofta",
+      "mezze spread"
+    ],
+    "vibe": [
+      "romantic",
+      "polished",
+      "elegant"
+    ],
+    "summary": "A waterfront Santa Barbara spot offering upscale Mediterranean comfort food and sunset views, perfect for anniversary celebrations."
+  },
+  {
+    "id": "r007",
+    "name": "Kimchi Garden",
+    "cuisine": "Korean",
+    "location": "Los Angeles",
+    "price_range": "$$",
+    "rating": 4.3,
+    "signature_dishes": [
+      "bulgogi",
+      "short rib",
+      "banchan"
+    ],
+    "vibe": [
+      "lively",
+      "casual",
+      "group-friendly"
+    ],
+    "summary": "A lively Koreatown hotspot where diners grill their own bulgogi and short ribs over charcoal, complemented by endless banchan and flowing soju."
+  },
+  {
+    "id": "r008",
+    "name": "Harvest Table",
+    "cuisine": "American",
+    "location": "Napa",
+    "price_range": "$$$$",
+    "rating": 4.5,
+    "signature_dishes": [
+      "roasted beets with goat cheese",
+      "heirloom tomato salad"
+    ],
+    "vibe": [
+      "quiet",
+      "earthy",
+      "farm-to-table"
+    ],
+    "summary": "A serene Napa farm-to-table spot offering ever\u2011changing seasonal dishes and a $95 tasting menu in a reclaimed\u2011wood dining room."
+  },
+  {
+    "id": "r009",
+    "name": "Tagine House",
+    "cuisine": "Ethiopian/Moroccan",
+    "location": "Sacramento",
+    "price_range": "$$",
+    "rating": 4.4,
+    "signature_dishes": [
+      "misir wot",
+      "lamb tagine"
+    ],
+    "vibe": [
+      "communal",
+      "warm",
+      "casual"
+    ],
+    "summary": "A budget-friendly spot in Sacramento offering shared Ethiopian and Moroccan dishes like misir wot and lamb tagine in a warm, communal setting."
+  },
+  {
+    "id": "r010",
+    "name": "The Vegan Anchor",
+    "cuisine": "Vegan",
+    "location": "San Francisco",
+    "price_range": "$$$",
+    "rating": 4.5,
+    "signature_dishes": [
+      "hearts of palm crab cakes",
+      "chef's tasting menu"
+    ],
+    "vibe": [
+      "trendy",
+      "modern",
+      "vegetarian-friendly"
+    ],
+    "summary": "A sleek, modern spot in San Francisco offering inventive vegan seafood dishes like hearts\u2011of\u2011palm crab cakes and a playful tasting menu."
+  },
+  {
+    "id": "r011",
+    "name": "Pacific Catch Shack",
+    "cuisine": "Seafood",
+    "location": "Monterey",
+    "price_range": "$$",
+    "rating": 4.3,
+    "signature_dishes": [
+      "cioppino",
+      "fish tacos",
+      "catch of the day"
+    ],
+    "vibe": [
+      "casual",
+      "waterfront",
+      "lively"
+    ],
+    "summary": "A laid-back waterfront spot in Monterey serving fresh catch like cioppino and fish tacos, perfect for both tourists and locals."
+  },
+  {
+    "id": "r012",
+    "name": "Desert Bloom Cafe",
+    "cuisine": "Mediterranean-Californian",
+    "location": "Palm Springs",
+    "price_range": "$$",
+    "rating": 4.5,
+    "signature_dishes": [
+      "shakshuka",
+      "citrus salad with dates and pistachios",
+      "cold-brew"
+    ],
+    "vibe": [
+      "bright",
+      "airy",
+      "casual",
+      "brunch"
+    ],
+    "summary": "A bright, airy brunch cafe in Palm Springs offering Mediterranean-Californian dishes like shakshuka and citrus salad, with patio string lights and a solid 4.5-star reputation."
+  }
+]
