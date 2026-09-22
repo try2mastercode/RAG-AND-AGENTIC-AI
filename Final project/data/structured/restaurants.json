@@ -8,14 +8,14 @@
     "rating": 4.3,
     "signature_dishes": [
       "pho",
-      "shaking beef",
-      "summer rolls"
+      "summer rolls",
+      "shaking beef"
     ],
     "vibe": [
       "casual",
       "lively"
     ],
-    "summary": "A bustling Little Saigon spot known for its 18\u2011hour\u2011simmered pho, shaking beef, and fresh summer rolls, offering casual dining at affordable prices."
+    "summary": "A bustling Little Saigon spot known for its 18\u2011hour\u2011simmered pho and fresh summer rolls, offering casual dining at affordable prices."
   },
   {
     "id": "r002",
@@ -30,11 +30,12 @@
       "michelada"
     ],
     "vibe": [
-      "lively",
+      "loud",
+      "bright",
       "casual",
-      "bright"
+      "vibrant"
     ],
-    "summary": "A lively East LA cantina serving authentic Mexico City street food like al pastor and birria tacos, with cheap micheladas and a bright, upbeat atmosphere."
+    "summary": "A lively East LA cantina serving authentic Mexico City street food like al pastor and birria tacos, with cheap drinks and a festive, loud atmosphere."
   },
   {
     "id": "r003",
@@ -53,7 +54,7 @@
       "minimalist",
       "special-occasion"
     ],
-    "summary": "An intimate eight-seat omakase bar in San Diego offering chef\u2011curated uni, fatty tuna, and dessert\u2011like tamago for a premium, special\u2011occasion experience."
+    "summary": "An intimate eight-seat omakase bar in San Diego offering chef\u2011curated uni, fatty tuna, and dessert\u2011like tamago for a high\u2011end, special\u2011occasion experience."
   },
   {
     "id": "r004",
@@ -63,16 +64,15 @@
     "price_range": "$$",
     "rating": 4.3,
     "signature_dishes": [
-      "twelve-hour smoked brisket",
+      "12-hour smoked brisket",
       "smoked mac and cheese"
     ],
     "vibe": [
       "loud",
       "casual",
-      "messy",
       "outdoor"
     ],
-    "summary": "A noisy, outdoor BBQ joint in Oakland serving twelve\u2011hour smoked brisket and smoky mac\u202fand\u202fcheese at affordable prices."
+    "summary": "A noisy, outdoor BBQ joint in Oakland serving 12\u2011hour smoked brisket and smoky mac\u202fand\u202fcheese with a self\u2011serve sauce bar."
   },
   {
     "id": "r005",
@@ -91,7 +91,7 @@
       "cozy",
       "authentic"
     ],
-    "summary": "A cozy Berkeley spot offering authentic Indian flavors like lamb vindaloo and garlic naan, praised for its steady four\u2011star quality and warm ambiance."
+    "summary": "Spice Route offers hearty Indian dishes like lamb vindaloo and garlic naan in a warm, low\u2011key setting, making it a reliable go\u2011to for casual dinner in Berkeley."
   },
   {
     "id": "r006",
@@ -99,7 +99,7 @@
     "cuisine": "Mediterranean",
     "location": "Santa Barbara",
     "price_range": "$$$$",
-    "rating": 4.7,
+    "rating": 4.5,
     "signature_dishes": [
       "grilled branzino",
       "lamb kofta",
@@ -108,9 +108,9 @@
     "vibe": [
       "romantic",
       "polished",
-      "elegant"
+      "upscale"
     ],
-    "summary": "A waterfront Santa Barbara spot offering upscale Mediterranean comfort food and sunset views, perfect for anniversary celebrations."
+    "summary": "Olive & Thyme offers upscale Mediterranean dining with grilled branzino, lamb kofta, and a generous mezze spread, set on a romantic patio with sunset views in Santa Barbara."
   },
   {
     "id": "r007",
@@ -129,7 +129,7 @@
       "casual",
       "group-friendly"
     ],
-    "summary": "A lively Koreatown hotspot where diners grill their own bulgogi and short ribs over charcoal, complemented by endless banchan and flowing soju."
+    "summary": "Kimchi Garden is a lively Koreatown hotspot where guests grill bulgogi and short rib tableside over charcoal, enjoying endless banchan and flowing soju."
   },
   {
     "id": "r008",
@@ -147,15 +147,15 @@
       "earthy",
       "farm-to-table"
     ],
-    "summary": "A serene Napa farm-to-table spot offering ever\u2011changing seasonal dishes and a $95 tasting menu in a reclaimed\u2011wood dining room."
+    "summary": "A Napa farm-to-table spot offering a seasonal tasting menu in a reclaimed\u2011wood dining room, highlighted by dishes like roasted beets with goat cheese and heirloom tomato salad."
   },
   {
     "id": "r009",
     "name": "Tagine House",
-    "cuisine": "Ethiopian/Moroccan",
+    "cuisine": "Ethiopian, Moroccan",
     "location": "Sacramento",
-    "price_range": "$$",
-    "rating": 4.4,
+    "price_range": "$",
+    "rating": 4.2,
     "signature_dishes": [
       "misir wot",
       "lamb tagine"
@@ -165,7 +165,7 @@
       "warm",
       "casual"
     ],
-    "summary": "A budget-friendly spot in Sacramento offering shared Ethiopian and Moroccan dishes like misir wot and lamb tagine in a warm, communal setting."
+    "summary": "Tagine House offers affordable Ethiopian and Moroccan shared plates in Sacramento, featuring misir wot and lamb tagine served with injera in a warm, communal setting."
   },
   {
     "id": "r010",
@@ -176,14 +176,14 @@
     "rating": 4.5,
     "signature_dishes": [
       "hearts of palm crab cakes",
-      "chef's tasting menu"
+      "playful tasting menu"
     ],
     "vibe": [
-      "trendy",
       "modern",
+      "trendy",
       "vegetarian-friendly"
     ],
-    "summary": "A sleek, modern spot in San Francisco offering inventive vegan seafood dishes like hearts\u2011of\u2011palm crab cakes and a playful tasting menu."
+    "summary": "A sleek, modern spot in San Francisco offering craveable plant\u2011based seafood like hearts\u2011of\u2011palm crab cakes and a playful tasting menu."
   },
   {
     "id": "r011",
@@ -193,16 +193,15 @@
     "price_range": "$$",
     "rating": 4.3,
     "signature_dishes": [
-      "cioppino",
-      "fish tacos",
-      "catch of the day"
+      "Cioppino",
+      "fish tacos"
     ],
     "vibe": [
       "casual",
-      "waterfront",
+      "coastal",
       "lively"
     ],
-    "summary": "A laid-back waterfront spot in Monterey serving fresh catch like cioppino and fish tacos, perfect for both tourists and locals."
+    "summary": "A laid\u2011back waterfront spot in Monterey serving fresh catch\u2011of\u2011the\u2011day dishes like Cioppino and beloved fish tacos."
   },
   {
     "id": "r012",
@@ -214,7 +213,7 @@
     "signature_dishes": [
       "shakshuka",
       "citrus salad with dates and pistachios",
-      "cold-brew"
+      "cold-brew coffee"
     ],
     "vibe": [
       "bright",
@@ -222,6 +221,6 @@
       "casual",
       "brunch"
     ],
-    "summary": "A bright, airy brunch cafe in Palm Springs offering Mediterranean-Californian dishes like shakshuka and citrus salad, with patio string lights and a solid 4.5-star reputation."
+    "summary": "A bright, airy brunch spot in Palm Springs offering Mediterranean-Californian dishes like shakshuka and citrus salad, with patio seating under string lights and a solid 4.5 rating."
   }
 ]
