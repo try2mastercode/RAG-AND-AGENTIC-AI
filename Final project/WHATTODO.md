@@ -64,11 +64,29 @@ Running record of what's done and what's next, organized by the 6 build phases. 
 
 ---
 
-## Phase 3 — Agent layer (M3L1, M3L2, M3L3) — ⬜ NOT STARTED
+## Phase 3 — Agent layer (M3L1, M3L2, M3L3) — DONE (2026-09-22)
 
-- M3L1: 6 agents (User Profile Generator, RAG Retriever, Food Trend Analyst, Food Style Expert, Nutrition Expert, Recommendation Expert) with role/goal/backstory.
-- M3L2: LangGraph hybrid workflow (sequential → sequential → parallel → sequential), `node_analyze_styles`, 4 test personas.
-- M3L3: Gradio chatbot, intent classification, `extract_preferences`, DB add/update/delete features.
+**What was built:**
+
+- `src/agents/personas.py` (**M3L1**) - 6 `AgentPersona`s (role/goal/backstory) + `AgentTask`s (description/expected_output/context/dependencies) for User Profile Generator, RAG Retriever, Food Trend Analyst, Food Style Expert, Nutrition Expert, Recommendation Expert. `__main__` prints all 6 - Food Style Expert's block is what Q7 screenshots.
+- `src/agents/state.py` - `RecommendationState` TypedDict; `errors` uses `Annotated[list[str], operator.add]` (see bug below).
+- `src/agents/nodes.py` (**M3L2**) - one node per agent, each building its own `user_message` from `state` and calling `complete_chat()`. `node_analyze_styles` is the Q8 screenshot target. Every LLM call is wrapped in try/except - failures degrade to a placeholder string + an error record rather than crashing the graph (spec 8.3/8.5).
+- `src/agents/graph.py` (**M3L2**) - LangGraph hybrid workflow: `generate_profile` -> `retrieve_candidates` -> `[analyze_trends, analyze_styles, analyze_nutrition]` (parallel fan-out/fan-in) -> `synthesize`. `run_for_all_test_personas()` runs all 4 personas from `data/reviews/users.json` (already shaped to match M3L2's 4 required personas back in Phase 1).
+- `src/retrieval/similarity.py` extended with `retrieve_recipes()` (CLIP text-encoder query against `food_images`) so the RAG Retriever agent can pull both restaurants and recipes - ~20 candidates total per M3L2's "top 20" spec.
+- `src/chatbot/preferences.py` (**M3L3**) - `classify_intent()` (4 categories) and `extract_preferences()` (dietary_restrictions/flavor_preferences/dining_occasion/price_range/favorite_cuisines). `__main__` is the Q9 screenshot target.
+- `src/chatbot/app.py` (**M3L3**) - Gradio Blocks app: Chat tab (chatbot, textbox, 3 sample-prompt buttons, Send/Clear) wired to intent-classify -> extract-preferences -> LangGraph workflow -> reply; Manage Restaurants tab (add/update-rating/delete, reusing M1L3's `data.cli` pure functions). Verified live in the browser end-to-end, both tabs.
+- Tests: `test_personas`, `test_nodes`, `test_graph`, `test_preferences`, `test_chatbot_app`, plus additions to `test_similarity`/`test_embeddings` - 33 new tests (86 total in the repo).
+
+**Known limitation, not a bug:** follow-up messages don't carry prior-turn context into the workflow yet - each `respond()` call starts a fresh state with only the latest message. The spec lists multi-turn refinement as a nice-to-have ("Handle follow-ups"), not a core M3L3 requirement, so this is flagged rather than fixed now.
+
+**Four real bugs caught and fixed while testing live (not just in unit tests):**
+
+1. **LangGraph parallel fan-out conflict.** The three parallel analysis nodes were each returning `{**state, ...}` (the full state), so when they ran concurrently every shared key got written more than once in the same step -> `InvalidUpdateError`. Fixed: nodes now return only the keys they change, and `errors` got an `operator.add` reducer since multiple parallel branches can each append to it in the same step.
+2. **CLIP's 77-token hard limit.** The RAG Retriever passed a full LLM-generated user profile (1000+ chars) straight into `embed_text_for_image_query()`, which crashed with `RuntimeError: Input ... is too long for context length 77`. Fixed with `clip.tokenize(texts, truncate=True)`.
+3. **Reasoning-model token starvation.** `classify_intent` used `max_tokens=10`; `gpt-oss-120b` spends tokens on hidden chain-of-thought before the visible answer, so the 10-token budget was consumed entirely by reasoning and returned `''` every time, silently defaulting every message to "clarification." Confirmed by direct test (`max_tokens=10` -> `''`, `max_tokens=200` -> `'restaurant_request'`). Fixed by raising to 200.
+4. **Gradio LaTeX rendering ate price symbols.** Recommendations naturally contain `$`/`$$`/`$$$` price notation, and `gr.Chatbot`'s default LaTeX delimiters treat `$...$` as math mode - live-tested output showed a whole table cell mangled into spaceless math-italic Unicode after a stray `$`. Fixed with `gr.Chatbot(latex_delimiters=[])`.
+
+**Verified:** `pytest tests/` -> 86/86 passed. All three labs run for real against live Groq (M3L1 print, M3L2 all 4 personas including graceful degradation under real 429s, M3L3 `extract_preferences`). Chatbot UI verified live in the browser: sample prompts, Send, both restaurant and recipe requests produced real personalized cross-referenced recommendations, Manage Restaurants tab's update-rating tested live (then reverted, since it touched the real dataset).
 
 ---
 
