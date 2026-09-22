@@ -20,6 +20,9 @@ ENV/
 # Jupyter
 .ipynb_checkpoints/
 
+# CLI/chatbot operational backups (generated safety copies before writes)
+**/data/structured/backups/
+
 # Vector stores / local DBs (regenerable, binary, large)
 chroma_store/
 chroma_db/
