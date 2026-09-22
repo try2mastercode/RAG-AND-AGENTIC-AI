@@ -21,6 +21,7 @@ The canonical, detailed specification lives in [`NOTE/IBM_AI_Engineering_Project
 - M1L3 CLI backs up the JSON file before any destructive/modifying write (list → backup → apply → save) — a `Generative_AI_Course_AI_Knowledge_Base.md` suggestion, not an IBM requirement, but cheap and safe to include.
 - M2L2/M2L3 (original lab text missing): implemented against the *stated final requirements* (similarity + metadata filtering + top-K; weighted late fusion across configs + rerank), using reasonable default metadata fields and a standard fusion sequence — not fabricated as if they were literal IBM-specified names.
 - Dataset: the actual IBM lab notebook's source dataset (raw restaurant descriptions, food images, user visit history, social posts, California Culinary Map text) was not supplied to this repo. It will be authored as a coherent synthetic dataset in Phase 1, sized and shaped to match what each lab describes.
+- MCP: pinned **`mcp<2`** in requirements.txt — the unpinned install grabbed `mcp==2.x`, which renamed `FastMCP` to `MCPServer`; the IBM lab text names "FastMCP" explicitly, and this repo's other proven MCP code (`9-Building AI Agents with MCP/`) targets 1.x, so pinned to match rather than adapt. The local MCP package also lives at **`src/mcp_app/`, not `src/mcp/`** — that name would shadow the real `mcp` SDK on `sys.path` (confirmed: it broke `from mcp.server.fastmcp import FastMCP`).
 
 ## Phase tracker
 
@@ -30,7 +31,7 @@ The canonical, detailed specification lives in [`NOTE/IBM_AI_Engineering_Project
 | 1 | Data layer — M1L1, M1L2, M1L3 | done |
 | 2 | Retrieval layer — M2L1, M2L2, M2L3 | done |
 | 3 | Agent layer — M3L1, M3L2, M3L3 | done |
-| 4 | MCP layer — M4L1, M4L2, M4L3 | not started |
+| 4 | MCP layer — M4L1, M4L2, M4L3 | done |
 | 5 | Screenshot capture + submission audit | not started |
 
 Each phase gets a self-review pass (acceptance checklist from the spec, plus tests) before moving to the next, and is only marked complete after that review. See [`WHATTODO.md`](WHATTODO.md) for the detailed, per-phase running status.

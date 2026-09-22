@@ -90,11 +90,22 @@ Running record of what's done and what's next, organized by the 6 build phases. 
 
 ---
 
-## Phase 4 — MCP layer (M4L1, M4L2, M4L3) — ⬜ NOT STARTED
+## Phase 4 — MCP layer (M4L1, M4L2, M4L3) — DONE (2026-09-22)
 
-- M4L1: FastMCP server — 1 resource (California Culinary Map text) + 3 tools (`get_restaurant_info`, `recommend_by_vibe`, `get_review`).
-- M4L2: MCP client over stdio — `list_tools()`/`list_resources()`, `list_roots` + `handle_sampling` callbacks (Groq-backed per the locked-in decision), calls all 3 tools.
-- M4L3: full ReAct-loop host app in Gradio Blocks — runtime tool discovery, quick-start buttons, `Thinking...` placeholder, `Built with Gradio` footer.
+**What was built:**
+
+- `src/mcp_app/server.py` (**M4L1**) - FastMCP server named "California Restaurant Server": 1 resource (`resource://california-culinary-map`, the raw Phase 1 text) + 3 tools - `get_restaurant_info` (partial-name search), `recommend_by_vibe` (two-pass: structured `vibe` tags first, then a raw-text fallback scan), `get_review` (pulls matching visits out of `users.json`). All return JSON strings.
+- `src/mcp_app/client.py` (**M4L2**) - stdio client (`StdioServerParameters` + `ClientSession`), `list_roots_callback` (scoped to `config.PROJECT_ROOT`, not the whole filesystem), `handle_sampling` (forwards server-delegated prompts to Groq via `AsyncGroq` - reused the exact proven pattern from `9-Building AI Agents with MCP/11_sampling_client_with_groq_handler.py`), `verify_server_capabilities()` + shared `call_tool()` helper, demo calls to all 3 tools.
+- `src/mcp_app/host_app.py` (**M4L3**) - full ReAct-loop Gradio host: discovers tools at runtime via `list_tools()`, converts MCP's `.inputSchema` straight into Groq's function-calling format (direct pass-through, no bridging needed), loops LLM -> tool-call? -> `call_tool()` -> feed result back -> repeat (capped at 5 iterations) until a plain-text answer. Gradio Blocks UI: chat window, text input, 3 quick-start buttons, Send/Clear, async-generator `respond()` that yields a `Thinking...` placeholder immediately then replaces it with the real answer.
+- Tests: `test_mcp_server.py` (8, mocked data files), `test_host_app.py` (4, mocked session/Groq - covers no-tool-call / one-tool-call / max-iterations-exhausted paths), `tests/integration/test_mcp_server_client.py` (3, spawns the **real** server subprocess and drives it through the real client - no mocks) - 15 new tests (101 total in the repo).
+
+**Real bug found and fixed - a genuine environment/versioning trap:** `src/mcp/` (the natural directory name) **shadowed the real `mcp` SDK** we needed to import from, since the editable install puts `src/` directly on `sys.path` and Python resolved our own empty local package before/instead of site-packages in this import chain - `from mcp.server import server` (our own file) actually tried to resolve against the *real* SDK's `mcp.server` subpackage and failed. Renamed the local package to `src/mcp_app/` to remove the ambiguity entirely, and updated `pyproject.toml`'s auto-discovery accordingly (no separate change needed, it re-discovers by directory name).
+
+**Second real bug, more serious - a package version trap:** the unpinned `mcp` install from Phase 0's `requirements.txt` grabbed the newest release, **`mcp==2.2.0`, which renamed `FastMCP` to `MCPServer` and changed other APIs** - `from mcp.server.fastmcp import FastMCP` raised `ModuleNotFoundError` with a migration-guide pointer. Checked this repo's other MCP code (`9-Building AI Agents with MCP/`, proven working) and found it targets `mcp==1.30.0`. Since the IBM lab text explicitly says "FastMCP" by name, pinned `mcp<2` in `requirements.txt` rather than adapt to the differently-named v2 surface - matches spec section 15.3 ("never modernize away a required assignment feature") and reuses already-proven patterns instead of guessing at a new API.
+
+**Also confirmed empirically before building M4L3:** `openai/gpt-oss-120b` (this project's Groq text model) *does* support Groq tool-calling correctly (folder 9 found `allam-2-7b` does **not** - worth checking per-model, not assuming).
+
+**Verified:** `pytest tests/` -> 101/101 passed. All three labs run for real: M4L1+M4L2's real client run printed genuine tool discovery, resource discovery, configured roots (`file:///D:/CODE/RAG%20and%20Agentic%20AI/Final%20project`), and valid JSON from all 3 tools. M4L3 verified live in the browser end-to-end for two different quick-start prompts - server logs confirmed exactly one real `CallToolRequest` per turn (not the LLM hallucinating), `Thinking...` placeholder captured, both responses correctly grounded in real tool data matching the M4L2 client's direct output.
 
 ---
 
