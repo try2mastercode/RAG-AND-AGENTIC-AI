@@ -28,16 +28,22 @@ Running record of what's done and what's next, organized by the 6 build phases. 
 
 ---
 
-## Phase 1 — Data layer (M1L1, M1L2, M1L3) — ⬜ NOT STARTED
+## Phase 1 — Data layer (M1L1, M1L2, M1L3) — ✅ DONE (2026-09-22)
 
-**Will build:**
+**What was built:**
 
-- Self-authored synthetic raw dataset: restaurant descriptions, recipe/food images + metadata, user visit history, social posts, California Culinary Map text (the original IBM lab's dataset files weren't supplied to this repo — see [`PROJECT_SPEC.md`](PROJECT_SPEC.md)).
-- M1L1: LLM structured-extraction pipeline (prompt → JSON → schema validate → repair loop → persist), processed in a loop over all restaurants.
-- M1L2: vision-LLM captioning pipeline for food images, merged back into recipe JSON (blocked on the vision-model decision above).
-- M1L3: command-line CRUD tool with `new_data_entry_process` (reuses the M1L1 pipeline), edit/delete with confirmation, JSON backup before writes, unit tests.
+- `src/data/dataset_gen.py` — synthetic dataset generator: 12 raw restaurant paragraphs (`data/raw/california_culinary_map.txt`), 10 recipes with programmatically-generated plate images (`data/recipes/recipes.json`, `data/images/*.png`), 4 synthetic users with visit history + social posts (`data/reviews/users.json`) whose personas already match M3L2's 4 test personas for later reuse.
+- `src/schemas/{restaurant,recipe,user}.py` — pydantic schemas with real validators (price_range enum, rating 0-5, non-empty lists).
+- `src/llm/groq_client.py` + `src/llm/prompts.py` — Groq wrapper (`openai/gpt-oss-120b`) and one-shot extraction + repair prompt templates.
+- `src/data/json_utils.py` — strips markdown fences / prose around LLM JSON output.
+- `src/data/structuring.py` (**M1L1**) — `new_data_entry_process(raw_text, id)`: LLM call -> parse -> validate -> repair loop (up to 3 attempts) -> validate again. `structure_all_restaurants()` loops over all raw blocks calling it, saves only validated records. **Ran for real: 12/12 restaurants structured, 0 failures** (Groq hit 429 twice, SDK auto-retried).
+- `src/data/captioning.py` (**M1L2**) — local BLIP (`Salesforce/blip-image-captioning-base`) captioning. `caption_sample()` tests a few images first, `caption_all_recipes()` loops over all recipes. Review context from `users.json` is appended as a separate sentence after the visual caption, never fed into the model as a generation prefix (see bug fix below). **Ran for real: 10/10 recipes captioned.**
+- `src/data/cli.py` (**M1L3**) — menu-driven CLI (list/view/add/edit/delete). "Add" calls the *same* `new_data_entry_process` from `structuring.py` (no duplicated extraction logic, per spec 9.3). Edit/delete require `y/N` confirmation; every write backs up the previous file to `data/structured/backups/` first.
+- Tests: `test_json_utils`, `test_schemas`, `test_structuring`, `test_captioning`, `test_cli` — 35 new tests (40 total in the repo), all mocking the LLM/vision calls for speed/determinism, plus real end-to-end runs of all three labs against live Groq/BLIP.
 
-**Needed before starting:** resolve the vision-model provider question.
+**Bug caught and fixed during build:** first captioning pass fed the review-comment text into BLIP as a conditional-generation prefix, and the model just echoed it back verbatim instead of describing the image (e.g. captioned a plate as "a dish at green papaya, reviewed as: huge bowl of pho..."). Fixed by always captioning unconditionally first, then appending context as a separate sentence (`build_caption()`) - re-ran the full batch afterward with correct, visually-grounded captions.
+
+**Verified:** `pytest tests/` -> 40/40 passed. CLI smoke-tested against real data (list/view). Screenshots (Q1-Q3) are your manual step from here - the loops/functions all run and print the required content.
 
 ---
 

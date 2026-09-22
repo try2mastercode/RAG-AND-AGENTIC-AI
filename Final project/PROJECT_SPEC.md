@@ -27,7 +27,7 @@ The canonical, detailed specification lives in [`NOTE/IBM_AI_Engineering_Project
 | Phase | Scope | Status |
 |---|---|---|
 | 0 | Scaffolding: repo layout, venv, deps, config, base tests | done |
-| 1 | Data layer — M1L1, M1L2, M1L3 | not started |
+| 1 | Data layer — M1L1, M1L2, M1L3 | done |
 | 2 | Retrieval layer — M2L1, M2L2, M2L3 | not started |
 | 3 | Agent layer — M3L1, M3L2, M3L3 | not started |
 | 4 | MCP layer — M4L1, M4L2, M4L3 | not started |
