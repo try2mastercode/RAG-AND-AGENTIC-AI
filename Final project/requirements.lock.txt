@@ -110,7 +110,7 @@ regex==2026.9.10
 requests==2.34.2
 requests-oauthlib==2.0.0
 requests-toolbelt==1.0.0
--e git+https://github.com/try2mastercode/IBM-RAG-Agentic-ai.git@8f146e7df1c657f868167b705bd54fcf90f176f1#egg=restaurant_recommender_capstone&subdirectory=final project
+-e git+https://github.com/try2mastercode/IBM-RAG-Agentic-ai.git@1f56ac77d701af5c1e0beb50e1d7fde163c74139#egg=restaurant_recommender_capstone&subdirectory=final project
 rich==15.0.0
 rpds-py==2026.6.3
 safehttpx==0.1.7

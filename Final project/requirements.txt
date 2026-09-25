@@ -26,5 +26,10 @@ gradio
 # a differently-named v2 surface.
 mcp<2
 
+# Deployable API backend
+fastapi
+uvicorn[standard]
+httpx
+
 # Testing
 pytest
