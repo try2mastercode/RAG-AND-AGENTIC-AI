@@ -24,11 +24,11 @@ different, and every panel has an "Under the hood" box showing the raw request/r
 
 ## Run it
 
-From the repo root (needs the repo's `.env` with `GROQ_API_KEY` set):
+Needs a `.env` file in this folder with `GROQ_API_KEY` set (copy `.env.example` and fill it in).
 
 ```bash
-pip install -r "Projects/4-Retriever-Showdown/requirements.txt"
-python -m uvicorn app:app --reload --app-dir "Projects/4-Retriever-Showdown"
+pip install -r requirements.txt
+python -m uvicorn app:app --reload
 ```
 
 Then open http://localhost:8000 (or whichever port you pass with `--port`).
