@@ -52,12 +52,13 @@ long-path support is enabled.
 
 ## Run it
 
-From the repo root (needs the two venvs above, plus the repo's root `.env` with
-`GROQ_API_KEY` set — both subprocesses inherit it from `app.py`'s environment):
+Needs the two venvs above, plus a `.env` file in this folder with `GROQ_API_KEY`
+set (copy `.env.example` and fill it in — both subprocesses inherit it from
+`app.py`'s environment):
 
 ```bash
-pip install -r "Projects/8-Framework-Showdown/requirements.txt"
-python -m uvicorn app:app --reload --app-dir "Projects/8-Framework-Showdown" --port 8008
+pip install -r requirements.txt
+python -m uvicorn app:app --reload --port 8008
 ```
 
 Then open http://localhost:8008. Interactive API docs (Swagger UI) are at `/docs`.
@@ -65,8 +66,8 @@ Then open http://localhost:8008. Interactive API docs (Swagger UI) are at `/docs
 ## Test it
 
 ```bash
-pip install -r "Projects/8-Framework-Showdown/requirements.txt"
-python -m pytest "Projects/8-Framework-Showdown/test_showdown.py" -v
+pip install -r requirements.txt
+python -m pytest test_showdown.py -v
 ```
 
 The tests check request validation and that the venv wiring is in place — they don't call
