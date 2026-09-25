@@ -18,11 +18,11 @@ generative-AI API round trip actually works.
 
 ## Run it
 
-From the repo root (needs the repo's `.env` with `GROQ_API_KEY` set):
+Needs a `.env` file in this folder with `GROQ_API_KEY` set (copy `.env.example` and fill it in).
 
 ```bash
-pip install -r "Projects/1-Cuisine-Chain-Explorer/requirements.txt"
-python -m uvicorn app:app --reload --app-dir "Projects/1-Cuisine-Chain-Explorer"
+pip install -r requirements.txt
+python -m uvicorn app:app --reload
 ```
 
 Then open http://localhost:8000. Interactive API docs (Swagger UI) are at
