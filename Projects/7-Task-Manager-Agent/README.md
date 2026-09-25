@@ -21,11 +21,11 @@ generation (`qwen/qwen3.8-27b`, which supports tool calling on this account).
 
 ## Run it
 
-From the repo root (needs the repo's `.env` with `GROQ_API_KEY` set):
+Needs a `.env` file in this folder with `GROQ_API_KEY` set (copy `.env.example` and fill it in).
 
 ```bash
-pip install -r "Projects/7-Task-Manager-Agent/requirements.txt"
-python -m uvicorn app:app --reload --app-dir "Projects/7-Task-Manager-Agent"
+pip install -r requirements.txt
+python -m uvicorn app:app --reload
 ```
 
 Then open http://localhost:8000 (or whichever port you pass with `--port`).
@@ -39,7 +39,6 @@ the page — the conversation is still there, because it lives in
 ## Test it without an API key
 
 ```bash
-cd "Projects/7-Task-Manager-Agent"
 pytest -q
 ```
 
