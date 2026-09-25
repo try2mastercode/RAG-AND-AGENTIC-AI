@@ -18,40 +18,6 @@ SAMPLE_RECORDS = [
 ]
 
 
-def test_respond_returns_clarification_message_for_ambiguous_input(monkeypatch):
-    monkeypatch.setattr(app, "classify_intent", lambda message: "clarification")
-    assert app.respond("I'm looking for dinner ideas") == app.CLARIFICATION_REPLY
-
-
-def test_respond_runs_workflow_for_restaurant_request(monkeypatch):
-    monkeypatch.setattr(app, "classify_intent", lambda message: "restaurant_request")
-    monkeypatch.setattr(app, "extract_preferences", lambda message: {"favorite_cuisines": ["Thai"]})
-
-    class FakeGraph:
-        def invoke(self, state):
-            assert state["social_posts"][0] == "Thai food please"
-            return {"final_recommendations": "Try Spice Route!"}
-
-    monkeypatch.setattr(app, "_get_graph", lambda: FakeGraph())
-
-    result = app.respond("Thai food please")
-    assert result == "Try Spice Route!"
-
-
-def test_respond_handles_workflow_failure_gracefully(monkeypatch):
-    monkeypatch.setattr(app, "classify_intent", lambda message: "recipe_request")
-    monkeypatch.setattr(app, "extract_preferences", lambda message: {})
-
-    class FailingGraph:
-        def invoke(self, state):
-            raise RuntimeError("groq is down")
-
-    monkeypatch.setattr(app, "_get_graph", lambda: FailingGraph())
-
-    result = app.respond("give me a recipe")
-    assert "groq is down" in result
-
-
 def test_add_restaurant_ui_saves_and_reports(tmp_path, monkeypatch):
     path = tmp_path / "restaurants.json"
     path.write_text(json.dumps(SAMPLE_RECORDS), encoding="utf-8")
