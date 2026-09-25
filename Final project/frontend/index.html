@@ -4,72 +4,94 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>California Restaurant & Recipe Recommender</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>California Restaurant &amp; Recipe Recommender</h1>
-  </header>
-
-  <nav class="tabs">
-    <button class="tab-btn active" data-tab="chat">Chat</button>
-    <button class="tab-btn" data-tab="manage">Manage Restaurants</button>
-  </nav>
-
-  <main>
-    <section id="tab-chat" class="tab-panel active">
-      <div id="chat-log" class="chat-log" aria-live="polite"></div>
-
-      <div id="sample-prompts" class="sample-prompts"></div>
-
-      <form id="chat-form" class="chat-form">
-        <textarea id="chat-input" placeholder="Tell me what you're craving..." rows="2" required></textarea>
-        <div class="chat-form-actions">
-          <button type="submit" id="send-btn">Send</button>
-          <button type="button" id="clear-btn" class="secondary">Clear</button>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-mark">🍽️</span>
+        <div>
+          <h1>California Restaurant &amp; Recipe Recommender</h1>
+          <p class="brand-sub">Multi-agent AI recommendations, grounded in a real vector index</p>
         </div>
-      </form>
-    </section>
-
-    <section id="tab-manage" class="tab-panel">
-      <p class="muted">Add, update, or delete restaurant records in the knowledge base.</p>
-
-      <div class="restaurant-list-wrap">
-        <h2>Current restaurants</h2>
-        <button id="refresh-restaurants" class="secondary small">Refresh</button>
-        <ul id="restaurant-list" class="restaurant-list"></ul>
       </div>
+    </header>
 
-      <details class="panel">
-        <summary>Add restaurant</summary>
-        <form id="add-form" class="stacked-form">
-          <textarea id="add-raw-text" placeholder="Paste a raw restaurant description..." rows="3" required></textarea>
-          <button type="submit">Add</button>
+    <nav class="tabs" role="tablist">
+      <button class="tab-btn active" data-tab="chat" role="tab" aria-selected="true">Chat</button>
+      <button class="tab-btn" data-tab="manage" role="tab" aria-selected="false">Manage Restaurants</button>
+    </nav>
+
+    <main>
+      <section id="tab-chat" class="tab-panel active">
+        <div id="chat-log" class="chat-log" aria-live="polite">
+          <div class="empty-state">
+            <span class="empty-emoji">👋</span>
+            <p>Tell me what you're craving, or tap a suggestion below to get started.</p>
+          </div>
+        </div>
+
+        <div id="sample-prompts" class="sample-prompts"></div>
+
+        <form id="chat-form" class="chat-form">
+          <textarea id="chat-input" placeholder="Tell me what you're craving..." rows="1" required></textarea>
+          <div class="chat-form-actions">
+            <button type="button" id="clear-btn" class="secondary">Clear</button>
+            <button type="submit" id="send-btn">
+              <span>Send</span>
+            </button>
+          </div>
         </form>
-        <p id="add-result" class="result-msg"></p>
-      </details>
+      </section>
 
-      <details class="panel">
-        <summary>Update rating</summary>
-        <form id="update-form" class="stacked-form">
-          <input id="update-id" type="text" placeholder="Restaurant id (e.g. r001)" required />
-          <input id="update-rating" type="number" min="0" max="5" step="0.1" placeholder="New rating (0-5)" required />
-          <button type="submit">Update</button>
-        </form>
-        <p id="update-result" class="result-msg"></p>
-      </details>
+      <section id="tab-manage" class="tab-panel">
+        <p class="muted">Add, update, or delete restaurant records in the knowledge base.</p>
 
-      <details class="panel">
-        <summary>Delete restaurant</summary>
-        <form id="delete-form" class="stacked-form">
-          <input id="delete-id" type="text" placeholder="Restaurant id (e.g. r001)" required />
-          <button type="submit" class="danger">Delete</button>
-        </form>
-        <p id="delete-result" class="result-msg"></p>
-      </details>
-    </section>
-  </main>
+        <div class="restaurant-list-wrap">
+          <div class="list-header">
+            <h2>Current restaurants</h2>
+            <button id="refresh-restaurants" class="secondary small">Refresh</button>
+          </div>
+          <ul id="restaurant-list" class="restaurant-list"></ul>
+        </div>
 
+        <details class="panel">
+          <summary>Add restaurant</summary>
+          <form id="add-form" class="stacked-form">
+            <textarea id="add-raw-text" placeholder="Paste a raw restaurant description..." rows="3" required></textarea>
+            <button type="submit">Add</button>
+          </form>
+          <p id="add-result" class="result-msg"></p>
+        </details>
+
+        <details class="panel">
+          <summary>Update rating</summary>
+          <form id="update-form" class="stacked-form">
+            <input id="update-id" type="text" placeholder="Restaurant id (e.g. r001)" required />
+            <input id="update-rating" type="number" min="0" max="5" step="0.1" placeholder="New rating (0-5)" required />
+            <button type="submit">Update</button>
+          </form>
+          <p id="update-result" class="result-msg"></p>
+        </details>
+
+        <details class="panel">
+          <summary>Delete restaurant</summary>
+          <form id="delete-form" class="stacked-form">
+            <input id="delete-id" type="text" placeholder="Restaurant id (e.g. r001)" required />
+            <button type="submit" class="danger">Delete</button>
+          </form>
+          <p id="delete-result" class="result-msg"></p>
+        </details>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/lib/marked.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.5/dist/purify.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

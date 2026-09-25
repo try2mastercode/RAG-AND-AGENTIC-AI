@@ -7,18 +7,71 @@ const sendBtn = document.getElementById("send-btn");
 const clearBtn = document.getElementById("clear-btn");
 const samplePromptsEl = document.getElementById("sample-prompts");
 
-function addMessage(role, text) {
-  const el = document.createElement("div");
-  el.className = `chat-msg ${role}`;
-  el.textContent = text;
-  chatLog.appendChild(el);
+function renderMarkdown(text) {
+  if (!window.marked) return text;
+  const html = marked.parse(text, { breaks: true });
+  const clean = window.DOMPurify ? DOMPurify.sanitize(html) : html;
+  // wrap tables so wide markdown tables scroll horizontally on small screens
+  return clean.replace(/<table>/g, '<div class="table-scroll"><table>').replace(/<\/table>/g, "</table></div>");
+}
+
+function clearEmptyState() {
+  const empty = chatLog.querySelector(".empty-state");
+  if (empty) empty.remove();
+}
+
+function addMessage(role, { text, html, pending } = {}) {
+  clearEmptyState();
+  const row = document.createElement("div");
+  row.className = `chat-row ${role}`;
+
+  const avatar = document.createElement("div");
+  avatar.className = "avatar";
+  avatar.textContent = role === "user" ? "🙂" : "🍽️";
+
+  const bubble = document.createElement("div");
+  bubble.className = `chat-msg ${role}${pending ? " pending" : ""}`;
+  if (html) bubble.innerHTML = html;
+  else bubble.textContent = text;
+
+  row.appendChild(avatar);
+  row.appendChild(bubble);
+  chatLog.appendChild(row);
   chatLog.scrollTop = chatLog.scrollHeight;
-  return el;
+  return bubble;
+}
+
+const THINKING_STAGES = [
+  "Reading your message...",
+  "Understanding your preferences...",
+  "Searching the restaurant & recipe index...",
+  "Weighing trends, styles, and nutrition...",
+  "Putting together your recommendations...",
+];
+
+function startTypingIndicator() {
+  const bubble = addMessage("bot", { pending: true, html: "" });
+  bubble.innerHTML = `<span class="typing-dots"><span></span><span></span><span></span></span><span class="status-text"></span>`;
+  const statusEl = bubble.querySelector(".status-text");
+
+  let i = 0;
+  statusEl.textContent = THINKING_STAGES[0];
+  const interval = setInterval(() => {
+    i = (i + 1) % THINKING_STAGES.length;
+    statusEl.textContent = THINKING_STAGES[i];
+  }, 4000);
+
+  return {
+    bubble,
+    stop() {
+      clearInterval(interval);
+    },
+  };
 }
 
 async function sendMessage(message) {
-  addMessage("user", message);
-  const pending = addMessage("bot pending", "Thinking...");
+  addMessage("user", { text: message });
+  const typing = startTypingIndicator();
   sendBtn.disabled = true;
 
   try {
@@ -27,15 +80,19 @@ async function sendMessage(message) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message }),
     });
-    if (!res.ok) throw new Error(`request failed (${res.status})`);
     const data = await res.json();
-    pending.textContent = data.reply;
-    pending.classList.remove("pending");
+    if (!res.ok) throw new Error(data.detail || `request failed (${res.status})`);
+    typing.stop();
+    typing.bubble.classList.remove("pending");
+    typing.bubble.innerHTML = renderMarkdown(data.reply || "");
   } catch (err) {
-    pending.textContent = `Something went wrong: ${err.message}`;
-    pending.classList.remove("pending");
+    typing.stop();
+    typing.bubble.classList.remove("pending");
+    typing.bubble.classList.add("error");
+    typing.bubble.textContent = `Something went wrong: ${err.message}`;
   } finally {
     sendBtn.disabled = false;
+    chatLog.scrollTop = chatLog.scrollHeight;
   }
 }
 
@@ -44,11 +101,25 @@ chatForm.addEventListener("submit", (e) => {
   const message = chatInput.value.trim();
   if (!message) return;
   chatInput.value = "";
+  autoResize();
   sendMessage(message);
 });
 
+chatInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    chatForm.requestSubmit();
+  }
+});
+
+function autoResize() {
+  chatInput.style.height = "auto";
+  chatInput.style.height = `${Math.min(chatInput.scrollHeight, 140)}px`;
+}
+chatInput.addEventListener("input", autoResize);
+
 clearBtn.addEventListener("click", () => {
-  chatLog.innerHTML = "";
+  chatLog.innerHTML = `<div class="empty-state"><span class="empty-emoji">👋</span><p>Tell me what you're craving, or tap a suggestion below to get started.</p></div>`;
 });
 
 async function loadSamplePrompts() {
@@ -62,6 +133,7 @@ async function loadSamplePrompts() {
       btn.textContent = prompt;
       btn.addEventListener("click", () => {
         chatInput.value = prompt;
+        autoResize();
         chatInput.focus();
       });
       samplePromptsEl.appendChild(btn);
@@ -74,9 +146,13 @@ async function loadSamplePrompts() {
 // ---------- Tabs ----------
 document.querySelectorAll(".tab-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
-    document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach((b) => {
+      b.classList.remove("active");
+      b.setAttribute("aria-selected", "false");
+    });
     document.querySelectorAll(".tab-panel").forEach((p) => p.classList.remove("active"));
     btn.classList.add("active");
+    btn.setAttribute("aria-selected", "true");
     document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active");
     if (btn.dataset.tab === "manage") loadRestaurants();
   });
