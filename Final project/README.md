@@ -1,6 +1,6 @@
 # Restaurant Recommendation Capstone
 
-End-to-end multimodal AI restaurant recommendation system — the IBM AI Engineering capstone. Unstructured restaurant text and food images are turned into a structured, retrievable knowledge base, served by a multi-agent recommendation workflow, exposed through a Gradio chatbot, and wired to the outside world through an MCP server/client/host stack.
+End-to-end multimodal AI restaurant recommendation system — originally built as the IBM AI Engineering capstone, now restructured into a deployable product. Unstructured restaurant text and food images are turned into a structured, retrievable knowledge base, served by a multi-agent recommendation workflow (LangGraph + Groq), and exposed through a FastAPI backend + a plain HTML/CSS/JS frontend. A Gradio prototype and an MCP server/client/host stack (the original IBM lab deliverables) are also still in the repo.
 
 See [`PROJECT_SPEC.md`](PROJECT_SPEC.md) for the phase tracker and build decisions, and [`NOTE/`](NOTE/) for the full course/lab source material.
 
@@ -23,13 +23,69 @@ cp .env.example .env   # then fill in GROQ_API_KEY
 
 ```text
 data/          raw + generated datasets, per pipeline stage
-src/           application code (data, schemas, llm, retrieval, agents, chatbot, mcp)
+src/           application code (data, schemas, llm, retrieval, agents, chatbot, api, mcp_app)
+frontend/      plain HTML/CSS/JS client for the FastAPI backend
 tests/         unit + integration tests
-chroma_data/   persistent vector store (generated, gitignored)
-screenshots/   the 12 required final-submission screenshots
+chroma_data/   persistent vector store (generated, gitignored — built by a setup step, see below)
+screenshots/   the 12 required IBM submission screenshots
 NOTE/          original IBM lab material + execution spec (source of truth)
+Procfile       process type for platforms that read one (Render/Railway/Heroku-style)
+runtime.txt    pins the Python version for platforms that read one
 ```
+
+## Running the deployable app (backend + frontend)
+
+The FastAPI backend serves both the REST API and the static frontend from one process — no Docker,
+just plain Python.
+
+```bash
+.venv/Scripts/pip install -e .
+.venv/Scripts/pip install -r requirements.txt
+.venv/Scripts/python -m retrieval.index_builder   # builds chroma_data/ from data/ (one-time, or after editing data/)
+.venv/Scripts/uvicorn api.main:app --host 0.0.0.0 --port 8000
+```
+
+Open http://localhost:8000 — the Chat tab talks to `/api/chat`, and Manage Restaurants talks to
+`/api/restaurants`. See `src/api/main.py` for the full route list (`/api/health`,
+`/api/sample-prompts`, `/api/chat`, `/api/restaurants` CRUD, `/api/recipes`).
+
+### Deploying (no Docker)
+
+This is a plain Python web service — any host that runs a Python app from a git repo works
+(Render's native Python runtime, Railway, PythonAnywhere, a bare VM, etc.). `chroma_data/` is
+gitignored (regenerable binary store), so it needs to be built once as part of your deploy's build
+step, not assumed to already be on disk:
+
+- **Build command:** `pip install -e . && pip install -r requirements.txt && python -m retrieval.index_builder`
+- **Start command:** `uvicorn api.main:app --host 0.0.0.0 --port $PORT` (also in [`Procfile`](Procfile)
+  for platforms that read one)
+- **Environment variable:** `GROQ_API_KEY` (copy from your `.env`)
+- **Python version:** 3.11 (pinned in [`runtime.txt`](runtime.txt) for platforms that read one — the
+  ML stack here, torch/sentence-transformers/CLIP/chromadb, is not yet reliable on 3.14)
+
+Re-run the `index_builder` step (or trigger a redeploy) any time `data/structured/restaurants.json`
+or `data/recipes/recipes.json` change, since the vector index isn't rebuilt automatically from
+API-driven CRUD edits.
+
+### Notes on reliability
+
+The recommendation workflow makes several Groq calls per chat message (intent classification,
+preference extraction, profile generation, then 3 parallel agent analyses + synthesis). On a
+free-tier Groq account this can hit per-minute rate limits under heavy use — `src/llm/groq_client.py`
+caps concurrent in-flight calls and retries once on an empty completion (a known behavior of
+reasoning models under a tight token budget) to keep this from surfacing as a silent failure, but a
+paid/higher-limit Groq tier will make chat responses noticeably faster and more consistent.
+
+## Other entry points still in the repo
+
+- `.venv/Scripts/python -m src.chatbot.app` — the original Gradio prototype (same `chatbot.service`
+  logic as the API, different UI).
+- `.venv/Scripts/python -m src.mcp_app.server` / `.mcp_app.client` / `.mcp_app.host_app` — the M4
+  MCP server/client/host lab deliverables.
+- `.venv/Scripts/python -m src.data.cli` — terminal CRUD for the restaurant dataset.
 
 ## Status
 
-Phase 0 (scaffolding) — see [`PROJECT_SPEC.md`](PROJECT_SPEC.md) for the full phase tracker.
+All 5 IBM capstone build phases are complete (see [`WHATTODO.md`](WHATTODO.md)) and the project has
+been submitted and certified. It has since been restructured with a FastAPI backend and a static
+frontend for standalone deployment, independent of the original Gradio/MCP lab deliverables.
