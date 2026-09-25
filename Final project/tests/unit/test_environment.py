@@ -13,7 +13,6 @@ def test_data_directories_exist():
         config.IMAGES_DIR,
         config.REVIEWS_DIR,
         config.CHROMA_DIR,
-        config.SCREENSHOTS_DIR,
     ]:
         assert d.exists(), f"missing directory: {d}"
 

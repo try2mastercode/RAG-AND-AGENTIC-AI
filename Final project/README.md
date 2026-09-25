@@ -1,8 +1,6 @@
 # Restaurant Recommendation Capstone
 
-End-to-end multimodal AI restaurant recommendation system — originally built as the IBM AI Engineering capstone, now restructured into a deployable product. Unstructured restaurant text and food images are turned into a structured, retrievable knowledge base, served by a multi-agent recommendation workflow (LangGraph + Groq), and exposed through a FastAPI backend + a plain HTML/CSS/JS frontend. A Gradio prototype and an MCP server/client/host stack (the original IBM lab deliverables) are also still in the repo.
-
-See [`PROJECT_SPEC.md`](PROJECT_SPEC.md) for the phase tracker and build decisions, and [`NOTE/`](NOTE/) for the full course/lab source material.
+End-to-end multimodal AI restaurant recommendation system. Unstructured restaurant text and food images are turned into a structured, retrievable knowledge base, served by a multi-agent recommendation workflow (LangGraph + Groq), and exposed through a FastAPI backend + a plain HTML/CSS/JS frontend. A Gradio prototype and an MCP server/client/host stack are also included.
 
 ## Setup
 
@@ -27,8 +25,6 @@ src/           application code (data, schemas, llm, retrieval, agents, chatbot,
 frontend/      plain HTML/CSS/JS client for the FastAPI backend
 tests/         unit + integration tests
 chroma_data/   persistent vector store (generated, gitignored — built by a setup step, see below)
-screenshots/   the 12 required IBM submission screenshots
-NOTE/          original IBM lab material + execution spec (source of truth)
 Procfile       process type for platforms that read one (Render/Railway/Heroku-style)
 runtime.txt    pins the Python version for platforms that read one
 ```
@@ -36,7 +32,7 @@ runtime.txt    pins the Python version for platforms that read one
 ## Running the deployable app (backend + frontend)
 
 The FastAPI backend serves both the REST API and the static frontend from one process — no Docker,
-just plain Python.
+just plain Python. On Windows, `run.bat` does all of this for you.
 
 ```bash
 .venv/Scripts/pip install -e .
@@ -76,16 +72,10 @@ caps concurrent in-flight calls and retries once on an empty completion (a known
 reasoning models under a tight token budget) to keep this from surfacing as a silent failure, but a
 paid/higher-limit Groq tier will make chat responses noticeably faster and more consistent.
 
-## Other entry points still in the repo
+## Other entry points
 
 - `.venv/Scripts/python -m src.chatbot.app` — the original Gradio prototype (same `chatbot.service`
   logic as the API, different UI).
-- `.venv/Scripts/python -m src.mcp_app.server` / `.mcp_app.client` / `.mcp_app.host_app` — the M4
-  MCP server/client/host lab deliverables.
+- `.venv/Scripts/python -m src.mcp_app.server` / `.mcp_app.client` / `.mcp_app.host_app` — an
+  MCP server/client/host stack.
 - `.venv/Scripts/python -m src.data.cli` — terminal CRUD for the restaurant dataset.
-
-## Status
-
-All 5 IBM capstone build phases are complete (see [`WHATTODO.md`](WHATTODO.md)) and the project has
-been submitted and certified. It has since been restructured with a FastAPI backend and a static
-frontend for standalone deployment, independent of the original Gradio/MCP lab deliverables.
