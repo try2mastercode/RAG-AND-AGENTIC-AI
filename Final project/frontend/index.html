@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>California Restaurant & Recipe Recommender</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>California Restaurant &amp; Recipe Recommender</h1>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="chat">Chat</button>
+    <button class="tab-btn" data-tab="manage">Manage Restaurants</button>
+  </nav>
+
+  <main>
+    <section id="tab-chat" class="tab-panel active">
+      <div id="chat-log" class="chat-log" aria-live="polite"></div>
+
+      <div id="sample-prompts" class="sample-prompts"></div>
+
+      <form id="chat-form" class="chat-form">
+        <textarea id="chat-input" placeholder="Tell me what you're craving..." rows="2" required></textarea>
+        <div class="chat-form-actions">
+          <button type="submit" id="send-btn">Send</button>
+          <button type="button" id="clear-btn" class="secondary">Clear</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="tab-manage" class="tab-panel">
+      <p class="muted">Add, update, or delete restaurant records in the knowledge base.</p>
+
+      <div class="restaurant-list-wrap">
+        <h2>Current restaurants</h2>
+        <button id="refresh-restaurants" class="secondary small">Refresh</button>
+        <ul id="restaurant-list" class="restaurant-list"></ul>
+      </div>
+
+      <details class="panel">
+        <summary>Add restaurant</summary>
+        <form id="add-form" class="stacked-form">
+          <textarea id="add-raw-text" placeholder="Paste a raw restaurant description..." rows="3" required></textarea>
+          <button type="submit">Add</button>
+        </form>
+        <p id="add-result" class="result-msg"></p>
+      </details>
+
+      <details class="panel">
+        <summary>Update rating</summary>
+        <form id="update-form" class="stacked-form">
+          <input id="update-id" type="text" placeholder="Restaurant id (e.g. r001)" required />
+          <input id="update-rating" type="number" min="0" max="5" step="0.1" placeholder="New rating (0-5)" required />
+          <button type="submit">Update</button>
+        </form>
+        <p id="update-result" class="result-msg"></p>
+      </details>
+
+      <details class="panel">
+        <summary>Delete restaurant</summary>
+        <form id="delete-form" class="stacked-form">
+          <input id="delete-id" type="text" placeholder="Restaurant id (e.g. r001)" required />
+          <button type="submit" class="danger">Delete</button>
+        </form>
+        <p id="delete-result" class="result-msg"></p>
+      </details>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
