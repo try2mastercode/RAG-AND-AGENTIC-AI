@@ -19,7 +19,7 @@ CANDIDATES = {
 
 
 def test_node_generate_user_profile_calls_agent_and_updates_state(monkeypatch):
-    monkeypatch.setattr(nodes, "complete_chat", lambda system, user: "profile text")
+    monkeypatch.setattr(nodes, "complete_chat", lambda system, user, **kwargs: "profile text")
     state = {"visit_history": [{"restaurant_name": "Green Papaya"}], "social_posts": ["loves spicy food"]}
 
     result = nodes.node_generate_user_profile(state)
@@ -29,7 +29,7 @@ def test_node_generate_user_profile_calls_agent_and_updates_state(monkeypatch):
 
 
 def test_node_generate_user_profile_records_error_on_failure(monkeypatch):
-    def boom(system, user):
+    def boom(system, user, **kwargs):
         raise RuntimeError("rate limited")
 
     monkeypatch.setattr(nodes, "complete_chat", boom)
@@ -53,7 +53,7 @@ def test_node_retrieve_candidates_calls_both_collections(monkeypatch):
 def test_node_analyze_styles_builds_user_message_with_profile_and_candidates(monkeypatch):
     captured = {}
 
-    def fake_complete_chat(system, user):
+    def fake_complete_chat(system, user, **kwargs):
         captured["system"] = system
         captured["user"] = user
         return "style analysis"
@@ -75,7 +75,7 @@ def test_node_analyze_styles_builds_user_message_with_profile_and_candidates(mon
 
 
 def test_node_analyze_trends_and_nutrition_also_use_profile_and_candidates(monkeypatch):
-    monkeypatch.setattr(nodes, "complete_chat", lambda system, user: user)
+    monkeypatch.setattr(nodes, "complete_chat", lambda system, user, **kwargs: user)
 
     state = {"user_profile": "profile X", "retrieved_candidates": CANDIDATES, "errors": []}
 
@@ -89,7 +89,7 @@ def test_node_analyze_trends_and_nutrition_also_use_profile_and_candidates(monke
 def test_node_synthesize_recommendations_includes_all_prior_analyses(monkeypatch):
     captured = {}
 
-    def fake_complete_chat(system, user):
+    def fake_complete_chat(system, user, **kwargs):
         captured["user"] = user
         return "final list"
 

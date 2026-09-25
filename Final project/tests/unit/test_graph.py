@@ -4,7 +4,7 @@ from agents.user_data import load_all_users
 
 
 def _patch_llm_and_retrieval(monkeypatch):
-    monkeypatch.setattr(nodes, "complete_chat", lambda system, user: f"response to: {user[:30]}")
+    monkeypatch.setattr(nodes, "complete_chat", lambda system, user, **kwargs: f"response to: {user[:30]}")
     monkeypatch.setattr(nodes, "retrieve_restaurants", lambda query, k: [])
     monkeypatch.setattr(nodes, "retrieve_recipes", lambda query, k: [])
 

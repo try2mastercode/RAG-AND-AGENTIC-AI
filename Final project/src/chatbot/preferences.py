@@ -1,6 +1,7 @@
 import json
 import logging
 
+import config
 from data.json_utils import extract_json
 from llm.groq_client import complete
 
@@ -23,12 +24,14 @@ User message: "{message}"
 
 Respond with only the category name, nothing else."""
 
-    # max_tokens must stay generous: gpt-oss-120b is a reasoning model that spends
-    # tokens on hidden chain-of-thought before emitting the visible answer - a tight
-    # budget here silently truncates to an empty string before the category ever
-    # appears (confirmed: max_tokens=10 returned '', max_tokens=200 correctly returned
-    # the category).
-    response = complete(prompt, max_tokens=200, temperature=0.0).strip().lower()
+    # max_tokens must stay generous: reasoning models spend tokens on hidden
+    # chain-of-thought before emitting the visible answer - a tight budget here
+    # silently truncates to an empty string before the category ever appears
+    # (confirmed: max_tokens=10 returned '', max_tokens=200 correctly returned the
+    # category). GROQ_FAST_MODEL is smaller/faster than the main model and this task
+    # doesn't need deep reasoning - using it here cuts latency and per-minute token
+    # usage on every single chat turn.
+    response = complete(prompt, model=config.GROQ_FAST_MODEL, max_tokens=200, temperature=0.0).strip().lower()
     for category in INTENT_CATEGORIES:
         if category in response:
             return category
@@ -52,7 +55,7 @@ User message: "{message}"
 
 JSON:"""
 
-    raw = complete(prompt, temperature=0.1)
+    raw = complete(prompt, model=config.GROQ_FAST_MODEL, temperature=0.1)
     try:
         data = json.loads(extract_json(raw))
     except json.JSONDecodeError:

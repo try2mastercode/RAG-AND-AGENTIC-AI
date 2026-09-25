@@ -11,6 +11,12 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 # Verified against the live Groq model list at the start of Phase 1 (2026-09-22): active on this account.
 GROQ_TEXT_MODEL = os.getenv("GROQ_TEXT_MODEL", "openai/gpt-oss-120b")
 
+# Small, low-latency model for simple classification/extraction steps that don't need
+# GROQ_TEXT_MODEL's reasoning depth - measured at ~0.7s vs ~1-2s+ per call, and using it
+# for the two cheapest chat-turn steps meaningfully cuts total tokens-per-minute usage,
+# which is what actually drives the Groq 429 rate-limit retries under repeated use.
+GROQ_FAST_MODEL = os.getenv("GROQ_FAST_MODEL", "openai/gpt-oss-20b")
+
 # Groq has no vision-capable model on this account (llama-3.2-vision decommissioned,
 # llama-4-scout/maverick inaccessible) - M1L2 captioning runs on a local BLIP model instead.
 BLIP_MODEL_NAME = os.getenv("BLIP_MODEL_NAME", "Salesforce/blip-image-captioning-base")

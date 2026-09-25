@@ -29,9 +29,9 @@ def _system_prompt(persona: AgentPersona) -> str:
     return f"You are the {persona.role}.\n\nGoal: {persona.goal}\n\nBackstory: {persona.backstory}"
 
 
-def _call_agent(persona: AgentPersona, user_message: str) -> tuple[str, str | None]:
+def _call_agent(persona: AgentPersona, user_message: str, max_tokens: int = 1200) -> tuple[str, str | None]:
     try:
-        return complete_chat(_system_prompt(persona), user_message), None
+        return complete_chat(_system_prompt(persona), user_message, max_tokens=max_tokens), None
     except Exception as e:
         logger.error("%s failed: %s", persona.role, e)
         return f"[{persona.role} analysis unavailable: {e}]", f"{persona.role}: {e}"
@@ -117,8 +117,12 @@ def node_synthesize_recommendations(state: RecommendationState) -> Recommendatio
         f"Trend analysis: {state.get('trend_analysis', '')}\n\n"
         f"Style analysis: {state.get('style_analysis', '')}\n\n"
         f"Nutrition analysis: {state.get('nutrition_analysis', '')}\n\n"
-        "Synthesize the above into a final list of up to 5 restaurant and 5 recipe "
-        "recommendations, each with a one-sentence explanation."
+        "Synthesize the above into a final list of up to 3 restaurant and 3 recipe "
+        "recommendations, each with a one-sentence explanation. Keep the whole answer "
+        "under 300 words total so it fits in one response - be concise, not exhaustive."
     )
-    recommendations, error = _call_agent(RECOMMENDATION_EXPERT, user_message)
+    # Larger budget than the other agent calls: this response is markdown (headings +
+    # tables) which is token-heavy, and a truncated mid-table response reads as broken
+    # output to the user rather than just a shorter answer.
+    recommendations, error = _call_agent(RECOMMENDATION_EXPERT, user_message, max_tokens=2000)
     return {"final_recommendations": recommendations, "errors": _error_delta(error)}
