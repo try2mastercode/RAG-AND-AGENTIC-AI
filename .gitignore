@@ -49,3 +49,7 @@ CLAUDE.md
 
 # Misc large/generated media
 *.wav
+
+# Excluded from this repo (kept locally only)
+/Final project/
+/Projects/
